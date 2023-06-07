@@ -1,0 +1,52 @@
+- revise the diagram (class, erd)
+- user: membership rank, relate to cart entity, relate to thread entity
+- cart: 
+- define relevant business logic in service classes (aside from CRUD)
+- define controller for each entity
+- define endpoint URL that match the operation
+- configure and code to maintain a session
+- define error handling classes
+- html letak dalam satu folder
+- css letak dalam folder static
+- research on how to include media as the attribute of entity, passing and handling media, storing media in database, retrieving media from database
+- code UI (pages)
+
+
+
+CONFIGURATIONS FOR REGISTER AND LOGIN
+----------------------------------------
+Security Configuration
+- Create a configuration class that extends 'WebSecurityConfigurerAdapter' to customize the security settings. This class should override the 'configure' method to define security rules and authentication providers.
+- Configure authentication by implementing the 'UserDetailsService' interface and overriding the 'loadUserByUsername' method to load user details from the database.
+- Use the 'PasswordEncoder' interface to encode the user's password before storing it in database.
+Controller Endpoints
+- Create a controller class, such as 'AuthController' or 'UserController', with appropriate request mappings for the login and register endpoints.
+- In the login endpoint, you can use the 'AuthenticationManager to authenticate the user by calling 'authenticate' on the 'Authentication' object.
+- In the register endpoint, you can invoke the 'registerUser' method of the 'UserService' to handle user registeration.
+Views and Templates
+- Create the necessary HTML views or templates for the login and register pages. You can use Thymeleaf or any other template engine of your choice to create the UI components and forms
+Security Configuration File
+- Ensure that your application's configuration files(e.g., 'application.properties' or 'application.yml') specify the security-related setting, such as login page URL, logout URL, and security rules.
+
+USER MEMBERSHIP RANKS LIKE WAZE
+---------------------------------------
+Define Memberhsip Ranks
+- Identify the different membership ranks or levels you want to have in your application, such as 'Bronze', 'Silver', 'Gold' etc.
+- Determine the criteria or requirements for each rank, such as the number of points, achievements, or activities a user needs to attain to reach a specific rank.
+User Model
+- Add a field to your 'User' entity class to represent the user's membership rank. This field can be an enum or a separate entity class that maps to the rank
+- Update your database schema to include the necessary columns for the membership rank field.
+Rank Service
+- Create a RankService class responsible for managing memberhip ranks
+- Implement methods to check a user's rank, assign a rank based on criteria, and update a user if needed.
+- These methods can query the user's data and compare it against the rank criteria to determine the appropriate rank.
+Rank Calculation
+- Define the logic to calculate and update the user's rank based on their activities, points, or achievements.
+- This calculation can be done periodically or triggered by specific events in your application
+- Consider using backgroud tasks or scheduled jobs to update user ranks efficiently
+User Interface
+- Display the user's rank on their profile or in relevant sections of your application
+- Customize the uer inerface baed on the user's rank to provide a personalized experience
+Reward and Benefits
+- Optionally, define rewards, benefits, or special privileges associated with each rank to incentivize users to progress and engage with your application
+
