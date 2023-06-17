@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Product Catalog</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" th:href="@{/}">Roboholic</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="#">Register</a>
+                    <a class="nav-link" href="#">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <h1>Product Catalog</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Category ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterate over the items and display the information -->
+            <tr th:each="item : ${items}">
+                <td th:text="${item.itemId}"></td>
+                <td th:text="${item.itemName}"></td>
+                <td th:text="${item.itemDescription}"></td>
+                <td th:text="${item.itemPrice}"></td>
+                <td th:text="${item.itemStock}"></td>
+                <td th:text="${item.itemCategoryID}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
