@@ -30,7 +30,7 @@ public class AddProductController {
     @PostMapping("/addnewproduct")
     public String addNewProduct(Item item) {
         itemserviceiImpl.addItem(item);
-        return "/productlisting";
+        return "listing";
     }
     
 }

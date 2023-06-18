@@ -44,7 +44,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Iterable<Item> getAllItems(){
+    public List<Item> getAllItems(){
         return itemrepo.findAll();
     }
+
+    @Override
+    public List<Item> getItemsName(){
+        return itemrepo.getItemsName();
+    }
+    
 }

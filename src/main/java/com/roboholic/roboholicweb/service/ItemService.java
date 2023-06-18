@@ -9,7 +9,8 @@ public interface ItemService {
     public void deleteItem(long item_id);
     public List<Item> searchItemByName(String search);
     public Item searchItembyId(long item_id);
-    public Iterable<Item> getAllItems();
+    public List<Item> getAllItems();
+    public List<Item> getItemsName();
     // public Item viewItem();
     // public static void saveItem(Item item) {
     // }
