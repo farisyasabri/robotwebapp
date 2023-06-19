@@ -42,6 +42,9 @@ public class User {
     @NumberFormat(style = Style.NUMBER)
     private String phoneNumber;
 
+    @Column(name = "role")
+    private String role;
+
     // @OneToMany(cascade = CascadeType.ALL)
     // @JoinColumn(name = "author", referencedColumnName = "user_id")
     // private List<Post> forumPosts = new ArrayList<>();
@@ -59,5 +62,27 @@ public class User {
     // @Column(name = "collected_points")
     // private int points;
     
+
+    public User(String fname, String lname, String password, String email, String address, String phoneNumber, String role) {
+        this.fname = fname;
+        this.lname = lname;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
+
+
+    public User(String fname, String lname, String password, String email, String phoneNumber, String role) {
+        this.fname = fname;
+        this.lname = lname;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
+
+
 }
 
