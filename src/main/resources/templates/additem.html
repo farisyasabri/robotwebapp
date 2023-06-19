@@ -43,25 +43,25 @@
                     <form th:action="@{/addnewproduct}" method="post" th:object="${items}">
                         <!-- Form Group (Product Name)-->
                         <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Product Name</label>
-                            <input th:field="*{itemName}" class="form-control" id="inputUsername" type="text" placeholder="Enter product name" required>
+                            <label class="small mb-1">Product Name</label>
+                            <input th:field="*{itemName}" class="form-control" type="text" placeholder="Enter product name" required>
                         </div>
                         <div class="mb-3">
-                            <label class="small mb-3" for="inputUsername">Product Description</label>
-                            <textarea th:field="*{itemDescription}" class="form-control" id="inputUsername" type="text" placeholder="Enter product description" required></textarea>
+                            <label class="small mb-3">Product Description</label>
+                            <textarea th:field="*{itemDescription}" class="form-control" type="text" placeholder="Enter product description" required></textarea>
                         </div>
                         <!-- Form Row-->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (Price)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputLastName">Price</label>
+                                <label class="small mb-1">Price</label>
                                 <!-- <span class="input-group-text" id="inputGroupPrepend3">RM</span> -->
-                                <input th:field="*{itemPrice}" class="form-control" id="inputLastName" type="text" placeholder="Enter product price" required>
+                                <input th:field="*{itemPrice}" class="form-control" type="text" placeholder="Enter product price" required>
                             </div>
                             <!-- Form Group (Quantity)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="itemDescription">Quantity</label>
-                                <input th:field="*{itemStock}" class="form-control" id="inputFirstName" type="text" placeholder="Enter product quantity" required>
+                                <label class="small mb-1">Quantity</label>
+                                <input th:field="*{itemStock}" class="form-control" type="text" placeholder="Enter product quantity" required>
                             </div>
                         </div>
                         <button class="btn btn-primary" type="submit">Add Product</button>

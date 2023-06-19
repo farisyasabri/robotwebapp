@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -51,5 +52,19 @@ public class ResourceController {
         resourceserviceImpl.deleteResource(id);
         return "redirect:/resourcelisting";
     }
+
+    //update resource page
+    @GetMapping("/resourcelisting/{id}/update")
+    public String updateResourceForm(@PathVariable (value = "id") Long id, Model model) {
+        Resource resource = resourceserviceImpl.getResourcebyId(id);
+        model.addAttribute("resources", resource);
+        return  "updateResources";
+    }
+
+    @PostMapping("/resourcelisting/{id}/update/save")
+        public String updateResource(@ModelAttribute Resource resource, @PathVariable("id") Long id) {
+            resourceserviceImpl.updateResource(resource,id);
+            return "redirect:/resourcelisting";
+        }
     
 }

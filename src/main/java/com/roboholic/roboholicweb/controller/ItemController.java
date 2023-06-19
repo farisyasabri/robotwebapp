@@ -7,17 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.roboholic.roboholicweb.entity.Item;
 import com.roboholic.roboholicweb.service.ItemServiceImpl;
 
 @Controller
 public class ItemController {
-    private ItemServiceImpl itemserviceiImpl;
+    private ItemServiceImpl itemserviceImpl;
 
     @Autowired
     public ItemController(ItemServiceImpl itemservice){
-        this.itemserviceiImpl = itemservice;
+        this.itemserviceImpl = itemservice;
     }
 
     @GetMapping("/addnewproduct")
@@ -30,28 +31,37 @@ public class ItemController {
 
     @GetMapping("/listing")
     public String listing(Model model) {
-        model.addAttribute("items",itemserviceiImpl.getAllItems());
+        model.addAttribute("items",itemserviceImpl.getAllItems());
         return "listing";
     }
 
     @PostMapping("/addnewproduct")
     public String addNewProduct(Item item) {
-        itemserviceiImpl.addItem(item);
+        itemserviceImpl.addItem(item);
         return "redirect:/listing";
     }
 
     @GetMapping("/listing/{id}/delete")
     public String deleteproduct(@PathVariable (value = "id") Long id) {
-        itemserviceiImpl.deleteItem(id);
+        itemserviceImpl.deleteItem(id);
         return "redirect:/listing";
     }
     
+
+    //update product page
     @GetMapping("/listing/{id}/edit")
     public String editproduct(@PathVariable (value = "id") Long id, Model model) {
-        Item item = itemserviceiImpl.searchItembyId(id);
-        model.addAttribute("item", item);
+
+        Item item = itemserviceImpl.getItembyId(id);
+        model.addAttribute("items", item);
 
         return "updateitem";
+    }
+
+    @PostMapping("/listing/{id}/edit/save")
+    public String editItem(@ModelAttribute Item item, @PathVariable("id") Long id){
+        itemserviceImpl.updateItem(item, id);
+        return "redirect:/listing";
     }
 
 }

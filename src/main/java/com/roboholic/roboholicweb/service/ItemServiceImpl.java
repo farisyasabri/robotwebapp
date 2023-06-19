@@ -1,6 +1,7 @@
 package com.roboholic.roboholicweb.service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item searchItembyId(long item_id) {
+    public Item getItembyId(long item_id) {
         Optional<Item> optional = itemrepo.findById(item_id);
         Item product = null;
         if (optional.isPresent()){
@@ -56,4 +57,29 @@ public class ItemServiceImpl implements ItemService {
         return itemrepo.getItemsName();
     }
     
+    @Override
+    public Long updateItem(Item product, Long itemID){
+        // Item item = itemrepo.findById(itemID).get();
+
+        // //update item name
+        // if(!"".equalsIgnoreCase(item.getItemName())){
+        //     item.setItemName(item.getItemName());
+        // }
+
+        //     itemrepo.save(product);
+        //     return (long) item.getItemID();
+
+        Optional<Item> itemoptional = itemrepo.findById(itemID);
+        if(itemoptional.isPresent()){
+            Item item =itemoptional.get();
+            item.setItemName(product.getItemName());
+            item.setItemDescription(product.getItemDescription());
+            item.setItemPrice(product.getItemPrice());
+            item.setItemStock(product.getItemStock());
+            itemrepo.save(item);
+            }
+        return itemID;
+        }
+// Objects.nonNull(item.getItemID())&&
+
 }
