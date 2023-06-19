@@ -29,7 +29,7 @@ public class ResourceServiceImpl implements ResourceService{
     }
 
     @Override
-    public Resource searchResourcebyId(long resource_id) {
+    public Resource getResourcebyId(long resource_id) {
         Optional<Resource> optional = resourceRepo.findById(resource_id);
         Resource res = null;
         if (optional.isPresent()){
@@ -55,5 +55,21 @@ public class ResourceServiceImpl implements ResourceService{
     @Override
     public LocalDateTime addDateUploaded(){
         return LocalDateTime.now();
+    }
+
+    @Override
+    public Long updateResource(Resource resource, Long id){
+        Optional<Resource> optional = resourceRepo.findById(id);
+
+        if(optional.isPresent()){
+            Resource res = optional.get();
+            res.setResourceName(resource.getResourceName());
+            res.setResourceDescription(resource.getResourceDescription());
+            res.setLinkUrl(resource.getLinkUrl());
+            res.setDateUploaded(resource.getDateUploaded());
+            resourceRepo.save(res);
+        }
+
+        return id;
     }
 }

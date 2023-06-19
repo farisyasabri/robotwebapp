@@ -29,16 +29,16 @@
                     <form th:action="@{/resourcelisting}" method="post" th:object="${resources}">
                         <!-- Form Group (Resource Name)-->
                         <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Resource Name</label>
-                            <input th:field="*{resourceName}" class="form-control" id="inputUsername" type="text" placeholder="Enter resource name" required>
+                            <label class="small mb-1">Resource Name</label>
+                            <input th:field="*{resourceName}" class="form-control" type="text" placeholder="Enter resource name" required>
                         </div>
                         <div class="mb-3">
-                            <label class="small mb-3" for="inputUsername">Resource Description</label>
-                            <textarea th:field="*{resourceDescription}" class="form-control" id="inputUsername" type="text" placeholder="Enter resource description" required></textarea>
+                            <label class="small mb-3">Resource Description</label>
+                            <textarea th:field="*{resourceDescription}" class="form-control" type="text" placeholder="Enter resource description" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="small mb-3" for="inputUsername">Resource Link</label>
-                            <textarea th:field="*{linkUrl}" class="form-control" id="inputUsername" type="text" placeholder="Enter resource video ULR" required></textarea>
+                            <label class="small mb-3">Resource Link</label>
+                            <textarea th:field="*{linkUrl}" class="form-control" type="ULR" placeholder="Enter resource video ULR" required></textarea>
                         </div>
                         <button class="btn btn-primary" type="submit">Update Resourse</button>
                     </form>

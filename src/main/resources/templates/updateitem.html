@@ -13,9 +13,9 @@
     <!-- Account page navigation-->
     <nav class="nav nav-borders">
         <a class="nav-link active ms-0" href="#" th:href="@{/addnewproduct}">Add Product</a>
-        <a class="nav-link active ms-0" href="#" th:href="@{/addnewresources}">View Resources</a>
-        <!-- <a class="nav-link active ms-0" href="#" th:href="/addResources">Add Resource</a>
-        <a class="nav-link active ms-0" href="#" th:href="/listing">View Product Listing</a> -->
+        <a class="nav-link active ms-0" href="#" th:href="@{/listing}">Product Listing</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/resourcelisting}">View Resources</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/addnewresources}">Add Resources</a>
     </nav>
     <hr class="mt-0 mb-4">
     <h2>Update Product</h2>
@@ -39,28 +39,28 @@
             <div class="card mb-4">
                 <div class="card-header">Item Details</div>
                 <div class="card-body">
-                    <form th:action="@{/saveupdateitem}" method="post" th:object="${items}">
+                    <form th:action="@{/listing/{id}/edit/save(id=${items.itemID})}" method="post" th:object="${items}">
                         <!-- Form Group (Product Name)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputUsername">Product Name</label>
-                            <input th:field="*{itemName}" class="form-control" id="inputUsername" type="text" placeholder="Enter product name" required>
+                            <input th:field="*{itemName}" class="form-control" type="text" placeholder="Enter product name" required>
                         </div>
                         <div class="mb-3">
                             <label class="small mb-3" for="inputUsername">Product Description</label>
-                            <textarea th:field="*{itemDescription}" class="form-control" id="inputUsername" type="text" placeholder="Enter product description" required></textarea>
+                            <textarea th:field="*{itemDescription}" class="form-control" type="text" placeholder="Enter product description" required></textarea>
                         </div>
                         <!-- Form Row-->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (Price)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputLastName">Price</label>
-                                <!-- <span class="input-group-text" id="inputGroupPrepend3">RM</span> -->
-                                <input th:field="*{itemPrice}" class="form-control" id="inputLastName" type="text" placeholder="Enter product price" required>
+                                <span class="input-group-text" id="inputGroupPrepend3">RM</span>
+                                <input th:field="*{itemPrice}" class="form-control" type="text" required>
                             </div>
                             <!-- Form Group (Quantity)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="itemDescription">Quantity</label>
-                                <input th:field="*{itemStock}" class="form-control" id="inputFirstName" type="text" placeholder="Enter product quantity" required>
+                                <input th:field="*{itemStock}" class="form-control" type="text" required>
                             </div>
                         </div>
                         <button class="btn btn-primary" type="submit">Update Product</button>

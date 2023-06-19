@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<div class="container-xl px-4 mt-4">
     <nav class="nav nav-borders">
         <a class="nav-link active ms-0" href="#" th:href="@{/addnewproduct}">Add Product</a>
         <a class="nav-link active ms-0" href="#" th:href="@{/listing}">Product Listing</a>
@@ -18,43 +19,44 @@
         <a class="nav-link active ms-0" href="#" th:href="/listing">View Product Listing</a> -->
     </nav>
 
-<hr class="mt-0 mb-4">
+    <hr class="mt-0 mb-4">
 
-<div class="container">
-    <div class="row">
-        <div class="col-12 mb-3 mb-lg-5">
-            <div class="overflow-hidden card table-nowrap table-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Resource Listing</h5>
-                </div>        
-                <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead class="small text-uppercase bg-body text-muted">
-                            <tr>
-                                <th># resource_id</th>
-                                <th>resource_name</th>
-                                <th>resource_description</th>
-                                <th>LinkURL</th>
-                                <th>date_upload</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="align-middle" th:each="resource : ${resources}">
-                                <td th:text="${resource.resourceID}"></td>
-                                <td th:text="${resource.resourceName}"></td>
-                                <td th:text="${resource.resourceDescription}"></td>
-                                <td th:text="${resource.linkUrl}"></td>
-                                <td th:text="${resource.dateUploaded}"></td>
-                                <td class="text-end">
-                                    <div style= >
-                                        <ul><a th:href="@{/resourcelisting/{id}/update(id=${resource.resourceID})}">Update Resource</a></ul>
-                                        <ul><a th:href="@{/resourcelisting/{id}/delete(id=${resource.resourceID})}">Delete Resource</a></ul>
-                                      </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-3 mb-lg-5">
+                <div class="overflow-hidden card table-nowrap table-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Resource Listing</h5>
+                    </div>        
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead class="small text-uppercase bg-body text-muted">
+                                <tr>
+                                    <th># resource_id</th>
+                                    <th>resource_name</th>
+                                    <th>resource_description</th>
+                                    <th>LinkURL</th>
+                                    <th>date_upload</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="align-middle" th:each="resource : ${resources}">
+                                    <td th:text="${resource.resourceID}"></td>
+                                    <td th:text="${resource.resourceName}"></td>
+                                    <td th:text="${resource.resourceDescription}"></td>
+                                    <td th:text="${resource.linkUrl}"></td>
+                                    <td th:text="${resource.dateUploaded}"></td>
+                                    <td class="text-end">
+                                        <div style= >
+                                            <ul><a th:href="@{/resourcelisting/{id}/update(id=${resource.resourceID})}">Update</a></ul>
+                                            <ul><a th:href="@{/resourcelisting/{id}/delete(id=${resource.resourceID})}">Delete</a></ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

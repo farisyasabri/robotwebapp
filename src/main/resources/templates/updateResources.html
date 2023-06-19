@@ -13,9 +13,9 @@
     <!-- Account page navigation-->
     <nav class="nav nav-borders">  
         <a class="nav-link active ms-0" href="#" th:href="@{/addnewproduct}">Add Product</a>
-        <a class="nav-link active ms-0" href="#" th:href="@{/addnewresources}">View Resources</a>
-        <!-- <a class="nav-link active ms-0" href="#" th:href="/addResources">Add Resource</a>
-        <a class="nav-link active ms-0" href="#" th:href="/listing">View Product Listing</a> -->
+        <a class="nav-link active ms-0" href="#" th:href="@{/listing}">Product Listing</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/resourcelisting}">View Resources</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/addnewresources}">Add Resources</a>
     </nav>
     <hr class="mt-0 mb-4">
         <div class="col-xl-8 center" style="margin: auto; width: 50%; padding: 10px;">
@@ -23,19 +23,19 @@
             <div class="card mb-4">
                 <div class="card-header">Item Details</div>
                 <div class="card-body">
-                    <form th:action="@{/resourcelisting}" method="post" th:object="${resources}">
+                    <form th:action="@{/resourcelisting/{id}/update/save(id=${resources.resourceID})}" method="post" th:object="${resources}">
                         <!-- Form Group (Resource Name)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputUsername">Resource Name</label>
-                            <input th:field="*{resourceName}" class="form-control" id="inputUsername" type="text" placeholder="Enter resource name" required>
+                            <input th:field="*{resourceName}" class="form-control" type="text" placeholder="Enter resource name" required>
                         </div>
                         <div class="mb-3">
                             <label class="small mb-3" for="inputUsername">Resource Description</label>
-                            <textarea th:field="*{resourceDescription}" class="form-control" id="inputUsername" type="text" placeholder="Enter resource description" required></textarea>
+                            <textarea th:field="*{resourceDescription}" class="form-control" type="text" placeholder="Enter resource description" required></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="small mb-3" for="inputUsername">Resource Description</label>
-                            <textarea th:field="*{linkUrl}" class="form-control" id="inputUsername" type="text" placeholder="Enter resource video ULR" required></textarea>
+                            <textarea th:field="*{linkUrl}" class="form-control" type="text" placeholder="Enter resource video ULR" required></textarea>
                         </div>
                         <button class="btn btn-primary" type="submit">Update Resource</button>
                     </form>
