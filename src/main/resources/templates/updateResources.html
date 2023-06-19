@@ -11,16 +11,13 @@
 <body>
 <div class="container-xl px-4 mt-4">
     <!-- Account page navigation-->
-    <nav class="nav nav-borders">
+    <nav class="nav nav-borders">  
         <a class="nav-link active ms-0" href="#" th:href="@{/addnewproduct}">Add Product</a>
-        <a class="nav-link active ms-0" href="#" th:href="@{/listing}">Product Listing</a>
-        <a class="nav-link active ms-0" href="#" th:href="@{/resourcelisting}">View Resources</a>
-        <a class="nav-link active ms-0" href="#" th:href="@{/addnewresources}">Add Resources</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/addnewresources}">View Resources</a>
         <!-- <a class="nav-link active ms-0" href="#" th:href="/addResources">Add Resource</a>
         <a class="nav-link active ms-0" href="#" th:href="/listing">View Product Listing</a> -->
     </nav>
     <hr class="mt-0 mb-4">
-
         <div class="col-xl-8 center" style="margin: auto; width: 50%; padding: 10px;">
             <!-- Item details card-->
             <div class="card mb-4">
@@ -40,7 +37,7 @@
                             <label class="small mb-3" for="inputUsername">Resource Description</label>
                             <textarea th:field="*{linkUrl}" class="form-control" id="inputUsername" type="text" placeholder="Enter resource video ULR" required></textarea>
                         </div>
-                        <button class="btn btn-primary" type="submit">Update Resourse</button>
+                        <button class="btn btn-primary" type="submit">Update Resource</button>
                     </form>
                 </div>
             </div>

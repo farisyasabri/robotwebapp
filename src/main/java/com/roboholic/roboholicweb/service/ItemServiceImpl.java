@@ -1,4 +1,5 @@
 package com.roboholic.roboholicweb.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getAllItems(){
-        return itemrepo.findAll();
+        List<Item> items = new ArrayList<Item>();
+        itemrepo.findAll().forEach(items::add);
+        return items;
     }
 
     @Override

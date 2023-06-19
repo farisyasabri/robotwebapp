@@ -18,11 +18,11 @@ public class ListingController {
         this.itemservice = itemservice;
     }
 
-    @GetMapping("/listing")
-    public String showListing(Model model){
-        Iterable<Item> items = itemservice.getAllItems();
+    // @GetMapping("/listing")
+    // public String showListing(Model model){
+    //     // Iterable<Item> items = itemservice.getAllItems();
 
-        model.addAttribute("items", items);
-        return "listing";
-    }
+    //     // model.addAttribute("items", items);
+        // return "listing";
+    // }
 }

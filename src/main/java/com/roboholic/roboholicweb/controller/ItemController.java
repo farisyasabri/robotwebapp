@@ -2,30 +2,56 @@ package com.roboholic.roboholicweb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import com.roboholic.roboholicweb.service.ItemService;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import com.roboholic.roboholicweb.entity.Item;
+import com.roboholic.roboholicweb.service.ItemServiceImpl;
 
 @Controller
 public class ItemController {
-
-    private ItemService itemService;
+    private ItemServiceImpl itemserviceiImpl;
 
     @Autowired
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
+    public ItemController(ItemServiceImpl itemservice){
+        this.itemserviceiImpl = itemservice;
     }
 
-    // @GetMapping("/catalog")
-    // public String showCatalog(Model model) {
-    //     // Retrieve the list of items from the itemService
-    //     Iterable<Item> items = itemService.getAllItem();
+    @GetMapping("/addnewproduct")
+    public String addNewProductForm(Model model) {
+        // Iterable<Item> items = itemservice.getAllItems();
+        // model.addAttribute("items", items);
+        model.addAttribute("items", new Item());
+        return "additem";
+    }
 
-    //     // Add the items to the model
-    //     model.addAttribute("items", items);
+    @GetMapping("/listing")
+    public String listing(Model model) {
+        model.addAttribute("items",itemserviceiImpl.getAllItems());
+        return "listing";
+    }
 
-    //     // Return the view name for displaying the catalog
-    //     return "catalog";
-    // }
+    @PostMapping("/addnewproduct")
+    public String addNewProduct(Item item) {
+        itemserviceiImpl.addItem(item);
+        return "redirect:/listing";
+    }
 
+    @GetMapping("/listing/{id}/delete")
+    public String deleteproduct(@PathVariable (value = "id") Long id) {
+        itemserviceiImpl.deleteItem(id);
+        return "redirect:/listing";
+    }
+    
+    @GetMapping("/listing/{id}/edit")
+    public String editproduct(@PathVariable (value = "id") Long id, Model model) {
+        Item item = itemserviceiImpl.searchItembyId(id);
+        model.addAttribute("item", item);
+
+        return "updateitem";
+    }
 
 }

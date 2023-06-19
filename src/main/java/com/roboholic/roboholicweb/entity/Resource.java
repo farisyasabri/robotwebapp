@@ -35,7 +35,9 @@ public class Resource {
 
     @Column(name = "date_upload")
     private LocalDateTime dateUploaded;
-    
+
+    @Column(name = "link_url")
+    private String linkUrl;
 
     // public Resource(String resourceName, LocalDateTime dateUploaded) {
     //     this.resourceName = resourceName;

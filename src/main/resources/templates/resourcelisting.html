@@ -3,34 +3,60 @@
 <head>
     <link rel="stylesheet" type="css/text" href="listing.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <title>Add New Product</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <title>Product Listing</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body> 
-  <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#" th:href="@{/addnewproduct}">Roboholic</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link active" aria-current="page" href="#">Register</a>
-                <a class="nav-link" href="#">Login</a>
+<body>
+    <nav class="nav nav-borders">
+        <a class="nav-link active ms-0" href="#" th:href="@{/addnewproduct}">Add Product</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/listing}">Product Listing</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/resourcelisting}">View Resources</a>
+        <a class="nav-link active ms-0" href="#" th:href="@{/addnewresources}">Add Resources</a>
+        <!-- <a class="nav-link active ms-0" href="#" th:href="/addResources">Add Resource</a>
+        <a class="nav-link active ms-0" href="#" th:href="/listing">View Product Listing</a> -->
+    </nav>
+
+<hr class="mt-0 mb-4">
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-3 mb-lg-5">
+            <div class="overflow-hidden card table-nowrap table-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Resource Listing</h5>
+                </div>        
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="small text-uppercase bg-body text-muted">
+                            <tr>
+                                <th># resource_id</th>
+                                <th>resource_name</th>
+                                <th>resource_description</th>
+                                <th>LinkURL</th>
+                                <th>date_upload</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="align-middle" th:each="resource : ${resources}">
+                                <td th:text="${resource.resourceID}"></td>
+                                <td th:text="${resource.resourceName}"></td>
+                                <td th:text="${resource.resourceDescription}"></td>
+                                <td th:text="${resource.linkUrl}"></td>
+                                <td th:text="${resource.dateUploaded}"></td>
+                                <td class="text-end">
+                                    <div style= >
+                                        <ul><a th:href="@{/resourcelisting/{id}/update(id=${resource.resourceID})}">Update Resource</a></ul>
+                                        <ul><a th:href="@{/resourcelisting/{id}/delete(id=${resource.resourceID})}">Delete Resource</a></ul>
+                                      </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</nav>
-
-<div class="container">
-    <h1>Resource Listing</h1>
 </div>
-
-<div class="footer">
-  <p>Footer</p>
-</div>
-
-</body>
-</html>

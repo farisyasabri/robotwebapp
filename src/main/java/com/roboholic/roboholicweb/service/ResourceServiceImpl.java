@@ -1,6 +1,7 @@
 package com.roboholic.roboholicweb.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +46,10 @@ public class ResourceServiceImpl implements ResourceService{
     }
 
     @Override
-    public Iterable<Resource> getAllResource(){
-        return resourceRepo.findAll();
+    public List<Resource> getAllResource(){
+        List<Resource> res = new ArrayList<Resource>();
+        resourceRepo.findAll().forEach(res::add);
+        return res;
     }
 
     @Override
