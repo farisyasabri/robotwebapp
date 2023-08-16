@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService {
             // return new Exception();
         } else {
             user = new User(
-                    registrationDto.getName(),
+                    registrationDto.getFname(),
+                    registrationDto.getLname(),
                     // passwordEncoder.encode(registrationDto.getPassword()),
                     registrationDto.getPassword(),
                     registrationDto.getEmail(),
@@ -46,7 +47,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUserById(Long id, User user){
         User update = userRepository.findById(id).get();
-        update.setName(user.getName());
+        update.setFname(user.getFname());
+        update.setLname(user.getLname());
         update.setEmail(user.getEmail());
         update.setAddress(user.getAddress());
         update.setPhoneNumber(user.getPhoneNumber());
