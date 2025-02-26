@@ -65,16 +65,8 @@ public class ItemController {
         return "redirect:/listing";
     }
 
-    //filter items by price
-    @GetMapping("/listing/{from}/{to}")
-    public String filterPrice(@PathVariable int from, int to, Model model){
-        List<Item> filteredItem = itemserviceImpl.filterItemsByPrice(from, to);
-        model.addAttribute("item",filteredItem);
-        return "listing";
-    }
-
     //filter items by name
-    @GetMapping("/listing/search")
+    @GetMapping("/listing/searchname")
     public String getListingByName(@RequestParam(required = false) String filter, Model model) {
         List<Item> filteredNames;
         if (filter != null && !filter.isEmpty()) {
@@ -87,4 +79,25 @@ public class ItemController {
         return "listing";
     }
 
+    //filter items by price
+    @GetMapping("/listing/searchprice")
+    public String getListingByPrice(@RequestParam(required = false) String priceRange, Model model){
+        List<Item> filteredPrice;
+        switch (priceRange) {
+            case "under50":
+                filteredPrice = itemserviceImpl.searchItemsByPrice(0.00,50.00); //boleh
+                break;
+            case "50to100":
+                filteredPrice = itemserviceImpl.searchItemsByPrice(50.01,100.00); // boleh
+                break;
+            case "above100":
+                filteredPrice = itemserviceImpl.searchItemsByPrice(100.01,1000.00);
+                break;
+            default:    
+                filteredPrice = itemserviceImpl.getAllItems();
+                break;
+        }
+        model.addAttribute("items",filteredPrice);
+        return "listing";
+    }            
 }

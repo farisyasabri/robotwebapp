@@ -64,22 +64,17 @@ public class ItemServiceImpl implements ItemService {
         //     itemrepo.save(product);
         //     return (long) item.getItemID();
 
-        Optional<Item> itemoptional = itemrepo.findById(itemID);
-        if(itemoptional.isPresent()){
-            Item item =itemoptional.get();
-            item.setItemName(product.getItemName());
-            item.setItemDescription(product.getItemDescription());
-            item.setItemPrice(product.getItemPrice());
-            item.setItemStock(product.getItemStock());
-            itemrepo.save(item);
-            }
-        return itemID;
+    Optional<Item> itemoptional = itemrepo.findById(itemID);
+    if(itemoptional.isPresent()){
+        Item item =itemoptional.get();
+        item.setItemName(product.getItemName());
+        item.setItemDescription(product.getItemDescription());
+        item.setItemPrice(product.getItemPrice());
+        item.setItemStock(product.getItemStock());
+        itemrepo.save(item);
         }
-
-    @Override
-    public List<Item> filterItemsByPrice(int to, int from){
-        return itemrepo.getItemsByItemPriceBetween(from, to);
-    }           
+    return itemID;
+    }      
 
     // @Override
     // public List<Item> searchItemByName(String name){
@@ -90,4 +85,9 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> searchItemByName(String name) {
         return itemrepo.findByItemNameContaining(name);
     }
+    
+    @Override
+    public List<Item> searchItemsByPrice(Double minPrice, Double maxPrice){
+        return itemrepo.findByItemPriceBetween(minPrice, maxPrice);
+    }     
 }

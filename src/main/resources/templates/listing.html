@@ -24,7 +24,7 @@
     <hr class="mt-0 mb-4">
 
     <!-- filter name -->
-    <form method="get" action="/listing/search">
+    <form method="get" action="/listing/searchname">
     <div class="input-group mb-3">
         <input type="text" class="form-control" name= "filter" placeholder="Item Name" aria-label="Item Name" aria-describedby="button-addon2">
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Find</button>
@@ -32,14 +32,23 @@
     </form>
 
     <!-- filter price -->
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-      </div>    
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-      </div>
+    <form method="get" action="/listing/searchprice">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onchange="this.form.submit()">
+            <label class="form-check-label" for="flexRadioDefault1">
+                Under RM50
+        </label></div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onchange="this.form.submit()">
+            <label class="form-check-label" for="flexRadioDefault1">
+                RM50 to RM100
+        </label></div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onchange="this.form.submit()">
+            <label class="form-check-label" for="flexRadioDefault1">
+                RM100 to RM150
+        </label></div>
+    </form>
 
     <!-- list of items -->
     <div class="container">

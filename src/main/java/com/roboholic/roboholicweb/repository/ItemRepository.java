@@ -22,6 +22,8 @@ public interface ItemRepository extends JpaRepository<Item,Long>{
     List<Item> findByItemNameContaining(String itemName);
 
     //filter item by price
-    @Query(value = "Select * FROM product WHERE 'product_price' BETWEEN :from AND :to", nativeQuery = true)
-    List<Item> getItemsByItemPriceBetween(@Param("from") int from, @Param("to") int to);
+    // @Query(value = "Select * FROM product WHERE 'product_price' BETWEEN :from AND :to", nativeQuery = true)
+    List<Item> findByItemPriceBetween(@Param("from") Double minPrice, @Param("to") Double maxPrice);
+    
+
 }

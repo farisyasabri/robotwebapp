@@ -12,7 +12,7 @@ public interface ItemService {
     public List<Item> getAllItems();
     // public List<Item> getItemsName();
     public Long updateItem(Item product, Long item_id);
-    public List<Item> filterItemsByPrice(int from, int to); //UC5
+    public List<Item> searchItemsByPrice(Double minPrice, Double maxPrice); //UC5
     // public Item viewItem();
     // public static void saveItem(Item item) {
     // }
