@@ -1,7 +1,7 @@
 package com.roboholic.roboholicweb.service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+// import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,21 +41,16 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> searchItemByName(String itemName) {
-        return itemrepo.findByItemNameContaining(itemName);
-    }
-
-    @Override
     public List<Item> getAllItems(){
         List<Item> items = new ArrayList<Item>();
         itemrepo.findAll().forEach(items::add);
         return items;
     }
 
-    @Override
-    public List<Item> getItemsName(){
-        return itemrepo.getItemsName();
-    }
+    // @Override
+    // public List<Item> getItemsName(){
+    //     return itemrepo.getItemsName();
+    // }
     
     @Override
     public Long updateItem(Item product, Long itemID){
@@ -80,6 +75,19 @@ public class ItemServiceImpl implements ItemService {
             }
         return itemID;
         }
-// Objects.nonNull(item.getItemID())&&
 
+    @Override
+    public List<Item> filterItemsByPrice(int to, int from){
+        return itemrepo.getItemsByItemPriceBetween(from, to);
+    }           
+
+    // @Override
+    // public List<Item> searchItemByName(String name){
+    //     return itemrepo.getItemsName();
+    // }
+
+        @Override
+    public List<Item> searchItemByName(String name) {
+        return itemrepo.findByItemNameContaining(name);
+    }
 }

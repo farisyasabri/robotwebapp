@@ -29,7 +29,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private int itemID;
+    private Long itemID;
 
     @Column(name = "product_name")
     private String itemName;
@@ -72,6 +72,9 @@ public class Item {
     // private Resource resources;
 
     //Second method using join table
-    @OneToOne(mappedBy = "item")
-    private Resource resources;
+    // @OneToOne(mappedBy = "item")
+    // private Resource resources;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true) 
+    @JoinColumn(name = "resource_id")
+    private Resource resource;
 }

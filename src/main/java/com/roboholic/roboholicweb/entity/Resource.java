@@ -25,7 +25,7 @@ public class Resource {
     @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resource_id")
-    private int resourceID;
+    private Long resourceID;
 
     @Column(name = "resource_name")
     private String resourceName;
@@ -61,10 +61,13 @@ public class Resource {
     // private Item item;
 
     //Second method using join table
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "resource_items",
-        joinColumns = {@JoinColumn(name = "resource_id", referencedColumnName = "resource_id")},
-        inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")})
+    // @OneToOne(cascade = CascadeType.ALL)
+    // @JoinTable(name = "resource_items",
+    //     joinColumns = {@JoinColumn(name = "resource_id", referencedColumnName = "resource_id")},
+    //     inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")})
+    // private Item item;
+
+    @OneToOne(mappedBy = "resource")
     private Item item;
 
 }

@@ -1,13 +1,15 @@
 package com.roboholic.roboholicweb.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.roboholic.roboholicweb.entity.Item;
 import com.roboholic.roboholicweb.service.ItemServiceImpl;
@@ -16,7 +18,6 @@ import com.roboholic.roboholicweb.service.ItemServiceImpl;
 public class ItemController {
     private ItemServiceImpl itemserviceImpl;
 
-    @Autowired
     public ItemController(ItemServiceImpl itemservice){
         this.itemserviceImpl = itemservice;
     }
@@ -62,6 +63,28 @@ public class ItemController {
     public String editItem(@ModelAttribute Item item, @PathVariable("id") Long id){
         itemserviceImpl.updateItem(item, id);
         return "redirect:/listing";
+    }
+
+    //filter items by price
+    @GetMapping("/listing/{from}/{to}")
+    public String filterPrice(@PathVariable int from, int to, Model model){
+        List<Item> filteredItem = itemserviceImpl.filterItemsByPrice(from, to);
+        model.addAttribute("item",filteredItem);
+        return "listing";
+    }
+
+    //filter items by name
+    @GetMapping("/listing/search")
+    public String getListingByName(@RequestParam(required = false) String filter, Model model) {
+        List<Item> filteredNames;
+        if (filter != null && !filter.isEmpty()) {
+            filteredNames = itemserviceImpl.searchItemByName(filter);
+        }else{
+            filteredNames = itemserviceImpl.getAllItems();
+            System.out.println();
+        }
+        model.addAttribute("items", filteredNames);
+        return "listing";
     }
 
 }

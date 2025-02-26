@@ -1,5 +1,5 @@
 server:
-    port: 8080
+    port: 8081
     error:
         include-message: always
 
@@ -8,7 +8,7 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: root
         url: jdbc:mysql://localhost:3306/roboholic?useSSL=false
-        password: P@ssw0rdMySQL
+        password: Nuraf4111_
 
     jpa:
         hibernate:
