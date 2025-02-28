@@ -99,5 +99,15 @@ public class ItemController {
         }
         model.addAttribute("items",filteredPrice);
         return "listing";
-    }            
+    }  
+    
+    //catalog = view product details
+    @GetMapping("/listing/{id}/viewItem")
+    public String getProductDetails(@PathVariable(value = "id")Long id, Model model){
+        Item item = itemserviceImpl.getItembyId(id);
+        // model.addAttribute("items",itemserviceImpl.getAllItems());
+        model.addAttribute("items", item);
+        return "catalog";
+    }
+    
 }
