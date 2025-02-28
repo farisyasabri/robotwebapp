@@ -14,6 +14,8 @@ import com.roboholic.roboholicweb.entity.Resource;
 import java.util.List;
 import com.roboholic.roboholicweb.service.ItemServiceImpl;
 import com.roboholic.roboholicweb.service.ResourceServiceImpl;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class ResourceController {
@@ -66,5 +68,19 @@ public class ResourceController {
             resourceserviceImpl.updateResource(resource,id);
             return "redirect:/resourcelisting";
         }
+
+    //search item by name
+    @GetMapping("/resourcelisting/searchresource")
+    public String getResourceByName(@RequestParam(required = false) String filter, Model model) {
+        List<Resource> filteredResources;
+        if (filter != null && !filter.isEmpty()) {
+            filteredResources = resourceserviceImpl.searchResourceByName(filter);
+        }else{
+            filteredResources = resourceserviceImpl.getAllResource();
+        }
+        model.addAttribute("resources", filteredResources);
+        return "resourcelisting";
+    }
+    
     
 }

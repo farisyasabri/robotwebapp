@@ -73,7 +73,7 @@ public class ItemController {
             filteredNames = itemserviceImpl.searchItemByName(filter);
         }else{
             filteredNames = itemserviceImpl.getAllItems();
-            System.out.println();
+            // System.out.println();
         }
         model.addAttribute("items", filteredNames);
         return "listing";
