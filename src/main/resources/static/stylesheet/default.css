@@ -7866,3 +7866,24 @@ footer h5 {
     max-width: 200px;
     object-fit: contain;
 }
+
+/* Container for each image + delete button */
+.image-preview-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+/* Delete button styling */
+.delete-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+}

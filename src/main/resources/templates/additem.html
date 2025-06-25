@@ -238,7 +238,7 @@
 
 <!-- Update the JavaScript preview function: -->
 <script>
-    // Multiple images preview function
+    
     function previewMultipleImages(input) {
         const previewContainer = document.getElementById('productImagesPreview');
         previewContainer.innerHTML = ''; // Clear previous previews
@@ -247,26 +247,34 @@
             for (let i = 0; i < input.files.length; i++) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
+                    // create a container for each image + delete button
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'image-preview-container'; // for styling
+
+                    // create the image element
                     const img = document.createElement('img');
                     img.src = e.target.result;
-                    img.className = 'img-fluid rounded m-1';
+                    img.className = 'img-fluid rounded';
                     img.style.maxHeight = '150px';
                     img.style.maxWidth = '200px';
-                    previewContainer.appendChild(img);
-                }
+
+                    // create the delete button (❌)
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.innerHTML = '❌';
+                    deleteBtn.className = 'btn btn-sm btn-danger delete-btn';
+                    deleteBtn.onclick = function() {
+                        imgContainer.remove(); // remove the image container
+                    };
+
+                    // append image + button to container
+                    imgContainer.appendChild(img);
+                    imgContainer.appendChild(deleteBtn);
+                    previewContainer.appendChild(imgContainer);
+                };
                 reader.readAsDataURL(input.files[i]);
             }
-        } else {
-            // Show default image if no files selected
-            const img = document.createElement('img');
-            img.src = '/images/default-product.png';
-            img.className = 'img-fluid rounded m-1';
-            img.style.maxHeight = '150px';
-            img.style.maxWidth = '200px';
-            previewContainer.appendChild(img);
         }
     }
-    
     // Initialize feather icons
     document.addEventListener('DOMContentLoaded', function() {
         feather.replace();
