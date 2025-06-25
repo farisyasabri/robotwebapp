@@ -28,18 +28,22 @@ public class ItemServiceImpl implements ItemService {
         // throw new UnsupportedOperationException("Unimplemented method 'deleteItem'");
     }
 
+    // @Override
+    // public Item getItembyId(long item_id) {
+    //     Optional<Item> optional = itemrepo.findById(item_id);
+    //     Item product = null;
+    //     if (optional.isPresent()){
+    //         product = optional.get();
+    //     } else{
+    //         throw new RuntimeException(" product is not found for id:: "+ item_id);
+    //     }
+    //     return product;
+    // }
     @Override
     public Item getItembyId(long item_id) {
-        Optional<Item> optional = itemrepo.findById(item_id);
-        Item product = null;
-        if (optional.isPresent()){
-            product = optional.get();
-        } else{
-            throw new RuntimeException(" product is not found for id:: "+ item_id);
-        }
-        return product;
+        return itemrepo.findByIdWithImages(item_id)
+                .orElseThrow(() -> new RuntimeException("Product not found for id: " + item_id));
     }
-
     @Override
     public List<Item> getAllItems(){
         List<Item> items = new ArrayList<Item>();

@@ -1,6 +1,7 @@
 package com.roboholic.roboholicweb.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +26,7 @@ public interface ItemRepository extends JpaRepository<Item,Long>{
     // @Query(value = "Select * FROM product WHERE 'product_price' BETWEEN :from AND :to", nativeQuery = true)
     List<Item> findByItemPriceBetween(@Param("from") Double minPrice, @Param("to") Double maxPrice);
     
+    @Query("SELECT i FROM Item i LEFT JOIN FETCH i.imageUrls WHERE i.itemID = :id")
+    Optional<Item> findByIdWithImages(@Param("id") Long id);
 
 }
