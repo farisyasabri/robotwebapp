@@ -13,6 +13,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +31,8 @@ public class Resource {
     @Column(name = "resource_name")
     private String resourceName;
 
-    @Column(name = "resource_description")
+    @Column(name = "resource_description", length = 2000)
+    @Size(max = 2000, message = "Description muct be less than 2000 characters")
     private String resourceDescription;
 
     @Column(name = "date_upload")
@@ -67,7 +69,7 @@ public class Resource {
     //     inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")})
     // private Item item;
 
-    @OneToOne(mappedBy = "resource")
-    private Item item;
+    // @OneToOne(mappedBy = "resource")
+    // private Item item;
 
 }
