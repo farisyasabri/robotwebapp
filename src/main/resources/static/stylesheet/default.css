@@ -7850,3 +7850,19 @@ footer h5 {
 @media screen and (max-width: 768px) {
   .switcher-wrap {
     display: none; } }
+
+#productImagesPreview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#productImagesPreview img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 150px;
+    max-width: 200px;
+    object-fit: contain;
+}
