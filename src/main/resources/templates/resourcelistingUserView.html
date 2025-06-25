@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Resources</title>
+    <meta name="description" content="Browse and manage resources for the robot web application."/>
+
+    <!--Inter UI font-->
+    <link href="https://rsms.me/inter/inter-ui.css" rel="stylesheet">
+
+    <!--vendors styles-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+
+    <!-- Bootstrap CSS / Color Scheme -->
+    <link rel="stylesheet" href="/stylesheet/default.css" id="theme-color">
+    <!-- Uncomment for pretty table -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
+</head>
+
+<body>
+
+<!--navigation-->
+<!-- <section class="smart-scroll">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a class="navbar-brand heading-black" th:href="@{/}">
+                Robotic
+            </a>
+            <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span data-feather="grid"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" th:href="@{/listingUserView}">Product Listing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll active" th:href="@{/resourcelistingUserView}">Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" th:href="@{/faqUserView}">FAQ</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section> -->
+<section class="smart-scroll">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a class="navbar-brand heading-black" th:href="@{/}">
+                Robotic
+            </a>
+            <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span data-feather="grid"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" th:href="@{/listingUserView}">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" th:href="@{/resourcelistingUserView}">Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" th:href="@{/faqUserView}">FAQ</a>
+                    </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll d-flex flex-row align-items-center text-primary" th:href="@{/login}">
+                            <em data-feather="layout" width="18" height="18" class="mr-2"></em>
+                            Admin Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
+
+<!--main content [Table Form]-->
+<!-- <section class="py-7 bg-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h2 class="heading-black">Resource Listing</h2>
+                <p class="text-muted lead">Browse and manage available resources</p>
+            </div>
+        </div> -->
+
+        <!-- Search Section -->
+        <!-- <div class="row mt-5 mb-4">
+            <div class="col-md-8 mx-auto">
+                <form method="get" action="/resourcelistingUserView/searchresource" class="input-group">
+                    <input type="text" class="form-control form-control-lg" name="filter" placeholder="Search resources...">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </form>
+            </div>
+        </div> -->
+
+        <!-- Resource Table -->
+        <!-- <div class="card shadow-lg">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Resources</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="text-uppercase text-muted">
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>URL</th> -->
+                                <!-- <th>Date Uploaded</th> -->
+                            <!-- </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="resource : ${resources}">
+                                <td th:text="${resource.resourceName}"></td>
+                                <td class="text-truncate" style="max-width: 200px;" th:text="${resource.resourceDescription}"></td>
+                                <td>
+                                    <a th:href="${resource.linkUrl}" target="_blank" class="text-primary">
+                                        <i class="fa fa-external-link"></i> View
+                                    </a>
+                                </td> -->
+                                <!-- <td th:text="${#dates.format(resource.dateUploaded, 'yyyy-MM-dd')}"></td> -->
+                            <!-- </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<!-- Resource listing section with news styling -->
+<section class="py-7 bg-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <h2 class="heading-black">Resource Listing</h2>
+                <p class="text-muted lead">Browse and explore our resources</p>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="row mt-5 mb-4">
+            <div class="col-md-8 mx-auto">
+                <form method="get" th:action="@{/resourcelistingUserView/searchresource}" class="input-group">
+                    <input type="text" class="form-control form-control-lg" name="filter" 
+                           placeholder="Search resources..." th:value="${param.filter}">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Resource Cards in News Style -->
+        <div class="row mt-5">
+            <div th:each="resource : ${resources}" class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <!-- Optional: Add resource image if available -->
+                    <!-- <img class="card-img-top" th:src="@{/images/resources/ + ${resource.imagePath}}" alt="Resource image"> -->
+                    
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${resource.resourceName}"></h5>
+                        <p class="card-text text-truncate" style="max-height: 60px;" 
+                           th:text="${resource.resourceDescription}"></p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <a th:href="${resource.linkUrl}" target="_blank" class="btn btn-sm btn-primary">
+                            <i class="fa fa-external-link"></i> View Resource
+                        </a>
+                        <!-- Optional: Display date if needed -->
+                        <!-- <small class="text-muted" th:text="${#dates.format(resource.dateUploaded, 'yyyy-MM-dd')}"></small> -->
+                    </div>
+                </div>
+            </div>
+            
+            <div th:if="${resources.empty}" class="col-12 text-center text-muted py-4">
+                No resources found
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--footer-->
+<!-- <footer class="py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5 mr-auto">
+                <h5>About Robotic</h5>
+                <p class="text-muted">Magnis modipsae que voloratati andigen daepeditem quiate conecus aut labore.
+                    Laceaque quiae sitiorem rest non restibusaes maio es dem tumquam explabo.</p>
+                <ul class="list-inline social social-sm">
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Legal</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Refund policy</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Partner</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Refer a friend</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Help</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Log in</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 text-muted text-center small-xl">
+                &copy; Robotic - All Rights Reserved
+            </div>
+        </div>
+    </div>
+</footer> -->
+<footer class="py-6 bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5 mr-auto">
+                <h5 class="text-muted">About Robotic</h5>
+                <p class="text-muted">The project aims to revolutionize STEM (Science, Technology, Engineering, and
+ Mathematics) education by developing innovative robots and a comprehensive website
+ dedicated to providing accessible and engaging STEM resources.</p>
+                <ul class="list-inline social social-sm text-muted">
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Legal</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Refund policy</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Partner</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Refer a friend</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Help</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Log in</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 text-muted text-center small-xl">
+                &copy; <span th:text="${#dates.year(#dates.createNow())}"></span> Robotic - All Rights Reserved
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.7.3/feather.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="/js/scripts.js"></script>
+</body>
+</html>
