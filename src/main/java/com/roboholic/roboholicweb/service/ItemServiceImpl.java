@@ -75,6 +75,11 @@ public class ItemServiceImpl implements ItemService {
         item.setItemDescription(product.getItemDescription());
         item.setItemPrice(product.getItemPrice());
         item.setItemStock(product.getItemStock());
+        // item.setImageUrls(product.getImageUrls());
+        // Only update images if new ones were provided
+        if (product.getImageUrls() != null) {
+            item.setImageUrls(product.getImageUrls());
+        }
         itemrepo.save(item);
         }
     return itemID;

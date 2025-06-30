@@ -115,6 +115,9 @@
 package com.roboholic.roboholicweb.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -217,10 +220,65 @@ public class ItemController {
         return "updateitem";
     }
 
+    // @PreAuthorize("hasRole('ADMIN')")
+    // @PostMapping("/listing/{id}/edit/save")
+    // public String editItem(@ModelAttribute Item item, @PathVariable("id") Long id) {
+    //     itemserviceImpl.updateItem(item, id);
+    //     return "redirect:/listing";
+    // }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/listing/{id}/edit/save")
-    public String editItem(@ModelAttribute Item item, @PathVariable("id") Long id) {
-        itemserviceImpl.updateItem(item, id);
+    public String editItem(@Valid @ModelAttribute Item item, 
+                        @PathVariable("id") Long id,
+                        BindingResult result,
+                        Model model,
+                        @RequestParam(value = "productImages", required = false) MultipartFile[] files,
+                        @RequestParam(value = "existingImageUrls", required = false) List<String> existingImageUrls,
+                        @RequestParam(value = "removeImageUrls", required = false) String removeImageUrls) 
+                        throws IOException {
+        
+        if (result.hasErrors()) {
+            return "updateitem";
+        }
+
+        // Get the existing item from database
+        Item existingItem = itemserviceImpl.getItembyId(id);
+        
+        // Update only the fields that should change
+        existingItem.setItemName(item.getItemName());
+        existingItem.setItemDescription(item.getItemDescription());
+        existingItem.setItemPrice(item.getItemPrice());
+        existingItem.setItemStock(item.getItemStock());
+        existingItem.setItemCategoryID(item.getItemCategoryID());
+        
+        // Handle image updates
+        List<String> finalImageUrls = new ArrayList<>();
+        
+        // Keep existing images that weren't marked for removal
+        if (existingImageUrls != null) {
+            List<String> imagesToRemove = removeImageUrls != null 
+                ? Arrays.asList(removeImageUrls.split(",")) 
+                : Collections.emptyList();
+            
+            for (String url : existingImageUrls) {
+                if (!imagesToRemove.contains(url)) {
+                    finalImageUrls.add(url);
+                }
+            }
+        }
+        
+        // Add new images
+        if (files != null && files.length > 0 && !files[0].isEmpty()) {
+            List<String> newImageUrls = cloudinaryService.uploadImages(files);
+            finalImageUrls.addAll(newImageUrls);
+        }
+        
+        // Set the final image URLs (only if we have changes)
+        existingItem.setImageUrls(finalImageUrls.isEmpty() ? null : finalImageUrls);
+        
+        // Update the item
+        itemserviceImpl.updateItem(existingItem, id);
         return "redirect:/listing";
     }
 
