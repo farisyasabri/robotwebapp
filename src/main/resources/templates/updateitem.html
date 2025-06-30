@@ -105,6 +105,11 @@
                 <div class="card">
                     <div class="card-body">
                         <form th:action="@{/listing/{id}/edit/save(id=${items.itemID})}" method="post" th:object="${items}" enctype="multipart/form-data">
+                            <!-- error handling -->
+                            <div th:if="${error != null}" class="alert alert-danger">
+                                <span th:text="${error}"></span>
+                            </div>
+
                             <div class="mb-4">
                                 <!-- Product Images -->
                                 <!-- <label class="form-label">Product Image</label>

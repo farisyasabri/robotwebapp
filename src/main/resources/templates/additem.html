@@ -102,6 +102,10 @@
                                 <!-- Preview container -->
                                 <div id="productImagesPreview" class="mt-2"></div>
                             </div>
+                            <!-- error handling -->
+                            <div th:if="${error != null}" class="alert alert-danger mt-3">
+                                <span th:text="${error}"></span>
+                            </div>
                             <!-- Product Name -->
                             <div class="mb-4">
                                 <label class="form-label">Product Name</label>

@@ -134,6 +134,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.roboholic.roboholicweb.entity.Item;
+import com.roboholic.roboholicweb.exception.ImageUploadException;
 import com.roboholic.roboholicweb.service.CloudinaryService;
 import com.roboholic.roboholicweb.service.ItemServiceImpl;
 
@@ -194,12 +195,24 @@ public class ItemController {
         if (result.hasErrors()) {
             return "additem";
         }
+
+            // Validate images before upload
+        if (files != null && files.length > 0 && !files[0].isEmpty()) {
+            try {
+                validateImages(files);
+                List<String> imageUrls = cloudinaryService.uploadImages(files);
+                item.setImageUrls(imageUrls);
+            } catch (ImageUploadException e) {
+                model.addAttribute("error", e.getMessage());
+                return "additem";
+            }
+        }
         
         // Upload images to Cloudinary
-        if (files != null && files.length > 0 && !files[0].isEmpty()) {
-            List<String> imageUrls = cloudinaryService.uploadImages(files);
-            item.setImageUrls(imageUrls);
-        }
+        // if (files != null && files.length > 0 && !files[0].isEmpty()) {
+        //     List<String> imageUrls = cloudinaryService.uploadImages(files);
+        //     item.setImageUrls(imageUrls);
+        // }
         
         itemserviceImpl.addItem(item);
         return "redirect:/listing";
@@ -245,7 +258,7 @@ public class ItemController {
         // Get the existing item from database
         Item existingItem = itemserviceImpl.getItembyId(id);
         
-        // Update only the fields that should change
+        // Update changes field
         existingItem.setItemName(item.getItemName());
         existingItem.setItemDescription(item.getItemDescription());
         existingItem.setItemPrice(item.getItemPrice());
@@ -269,12 +282,23 @@ public class ItemController {
         }
         
         // Add new images
+        // if (files != null && files.length > 0 && !files[0].isEmpty()) {
+        //     List<String> newImageUrls = cloudinaryService.uploadImages(files);
+        //     finalImageUrls.addAll(newImageUrls);
+        // }
+        // Add new images with validation
         if (files != null && files.length > 0 && !files[0].isEmpty()) {
-            List<String> newImageUrls = cloudinaryService.uploadImages(files);
-            finalImageUrls.addAll(newImageUrls);
+            try {
+                validateImages(files);
+                List<String> newImageUrls = cloudinaryService.uploadImages(files);
+                finalImageUrls.addAll(newImageUrls);
+            } catch (ImageUploadException e) {
+                model.addAttribute("error", e.getMessage());
+                model.addAttribute("items", existingItem);
+                return "updateitem";
+            }
         }
-        
-        // Set the final image URLs (only if we have changes)
+        // Set the final image URLs (only if have changes)
         existingItem.setImageUrls(finalImageUrls.isEmpty() ? null : finalImageUrls);
         
         // Update the item
@@ -349,5 +373,21 @@ public class ItemController {
         Item item = itemserviceImpl.getItembyId(id);
         model.addAttribute("items", item);
         return "catalog";
+    }
+
+    // method to validate images
+    private void validateImages(MultipartFile[] files) throws ImageUploadException {
+        long maxSize = 5 * 1024 * 1024; // 5MB
+        List<String> allowedTypes = Arrays.asList("image/jpeg", "image/png", "image/gif");
+        
+        for (MultipartFile file : files) {
+            if (file.getSize() > maxSize) {
+                throw new ImageUploadException("File " + file.getOriginalFilename() + " exceeds maximum size of 5MB");
+            }
+            
+            if (!allowedTypes.contains(file.getContentType())) {
+                throw new ImageUploadException("File " + file.getOriginalFilename() + " has invalid type. Only JPEG, PNG, and GIF are allowed");
+            }
+        }
     }
 }

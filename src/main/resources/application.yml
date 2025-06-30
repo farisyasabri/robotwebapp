@@ -25,10 +25,10 @@ spring:
             password: $2a$10$oKFMq3poRQfmSCw4Ltlnjekc7HewJN9mz83BMojmV45FBAjRtM/kK 
             roles: ADMIN
     
-    # servlet:
-    #     multipart:
-    #       max_file_size: 5MB
-    #       max_request_size: 10MB
+    servlet:
+        multipart:
+          max-file-size: 5MB
+          max-request-size: 5MB
 
 cloudinary:
     cloud_name: ddtzraw34
