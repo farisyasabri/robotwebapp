@@ -81,4 +81,21 @@ public class CloudinaryService {
         
         return imageUrls;
     }
+
+    public List<String> uploadDocuments(MultipartFile[] files) throws IOException {
+        List<String> documentUrls = new ArrayList<>();
+        
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                Map uploadResult = cloudinary.uploader().upload(file.getBytes(), 
+                    ObjectUtils.asMap(
+                        "resource_type", "auto", // Let Cloudinary detect the file type
+                        "format", "pdf" // Optional: force PDF format
+                    ));
+                documentUrls.add((String) uploadResult.get("url"));
+            }
+        }
+        
+        return documentUrls;
+    }
 }

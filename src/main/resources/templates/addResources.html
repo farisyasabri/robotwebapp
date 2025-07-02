@@ -68,7 +68,7 @@
         <hr class="mt-0 mb-4"> -->
 
         <!-- Flash messages -->
-        <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <!-- <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${message}"></span>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -76,6 +76,18 @@
         </div>
         <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
             <span th:text="${error}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div> -->
+        <div th:if="${error != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div th:if="${success != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -114,6 +126,22 @@
                                        placeholder="Enter resource URL (e.g., https://example.com)" required>
                                 <small class="text-danger" th:if="${#fields.hasErrors('linkUrl')}" 
                                        th:errors="*{linkUrl}"></small>
+                            </div>
+
+                            <!-- Upload Documents -->
+                            <div class="mb-4">
+                                <label class="form-label">Resource Documents (PDF, DOC, etc.)</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="resourceDocuments" 
+                                        name="resourceDocuments" multiple accept=".pdf,.doc,.docx,.ppt,.pptx">
+                                    <label class="btn btn-outline-secondary" for="resourceDocuments">
+                                        <i class="fa fa-file-upload mr-2"></i>Choose Files
+                                    </label>
+                                </div>
+                                <div id="fileList" class="mt-2 small text-muted">
+                                    No files selected
+                                </div>
+                                <small class="text-muted">You can upload multiple files (Max 10MB each)</small>
                             </div>
                             
                             <!-- Submit and Cancel buttons -->
@@ -201,11 +229,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script th:src="@{/js/scripts.js}"></script>
 
+<!-- <script>
+    // Initialize feather icons
+    document.addEventListener('DOMContentLoaded', function() {
+        feather.replace();
+    });
+</script> -->
+
 <script>
+    // File selection preview
+    document.getElementById('resourceDocuments').addEventListener('change', function(e) {
+        const fileList = document.getElementById('fileList');
+        if (this.files.length > 0) {
+            let html = '<ul class="list-unstyled">';
+            for (let i = 0; i < this.files.length; i++) {
+                html += `<li><i class="fa fa-file mr-2"></i>${this.files[i].name} (${formatFileSize(this.files[i].size)})</li>`;
+            }
+            html += '</ul>';
+            fileList.innerHTML = html;
+        } else {
+            fileList.innerHTML = 'No files selected';
+        }
+    });
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat(bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+    }
+    
     // Initialize feather icons
     document.addEventListener('DOMContentLoaded', function() {
         feather.replace();
     });
 </script>
+
 </body>
 </html>

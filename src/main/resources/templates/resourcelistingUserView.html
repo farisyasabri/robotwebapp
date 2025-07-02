@@ -186,6 +186,15 @@
                         </a>
                         <!-- Optional: Display date if needed -->
                         <!-- <small class="text-muted" th:text="${#dates.format(resource.dateUploaded, 'yyyy-MM-dd')}"></small> -->
+                        <!-- resource documents -->
+                        <div th:if="${resource.documentUrls != null and !resource.documentUrls.empty}" class="mt-2">
+                            <h6 class="small text-muted mb-1">Documents:</h6>
+                            <div th:each="docUrl, iterStat : ${resource.documentUrls}">
+                                <a th:href="${docUrl}" target="_blank" class="btn btn-sm btn-outline-secondary mb-1">
+                                    <i class="fa fa-file-pdf"></i> Document [[${iterStat.index + 1}]]
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -93,6 +93,21 @@
 <!--main content-->
 <section class="py-7 bg-hero">
     <div class="container">
+
+        <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${error}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div th:if="${success != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${success}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <div class="row">
             <div class="col-md-8 mx-auto text-center">
                 <h2 class="heading-black">Resource Listing</h2>
@@ -103,7 +118,7 @@
         <!-- Search Section -->
         <div class="row mt-5 mb-4">
             <div class="col-md-8 mx-auto">
-                <form method="get" action="/resourcelisting/searchresource" class="input-group">
+                <form method="get" th:action="@{/resourcelisting/searchresource}" class="input-group">
                     <input type="text" class="form-control form-control-lg" name="filter" placeholder="Search resources...">
                     <button class="btn btn-primary" type="submit">
                         <i class="fa fa-search"></i> Search
@@ -133,6 +148,7 @@
                                 <th>Description</th>
                                 <th>URL</th>
                                 <th>Date Uploaded</th>
+                                <th>Documents</th>
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
@@ -146,7 +162,19 @@
                                         <i class="fa fa-external-link"></i> View
                                     </a>
                                 </td>
-                                <td th:text="${#dates.format(resource.dateUploaded, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${resource.dateUploaded} ? ${#temporals.format(resource.dateUploaded, 'yyyy-MM-dd')} : 'No date'"></td>
+                                <td>
+                                    <div th:if="${resource.documentUrls != null and !resource.documentUrls.empty}">
+                                        <div th:each="docUrl, iterStat : ${resource.documentUrls}">
+                                            <a th:href="${docUrl}" target="_blank" class="text-primary">
+                                                <i class="fa fa-file-pdf"></i> Document [[${iterStat.index + 1}]]
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div th:if="${resource.documentUrls == null or resource.documentUrls.empty}">
+                                        <span class="text-muted">No documents</span>
+                                    </div>
+                                </td>
                                 <td class="text-end">
                                     <div class="btn-group">
                                         <a th:href="@{/resourcelisting/{id}/update(id=${resource.resourceID})}" class="btn btn-sm btn-outline-primary">

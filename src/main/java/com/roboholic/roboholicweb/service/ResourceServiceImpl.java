@@ -30,7 +30,8 @@ public class ResourceServiceImpl implements ResourceService{
 
     @Override
     public Resource getResourcebyId(long resource_id) {
-        Optional<Resource> optional = resourceRepo.findById(resource_id);
+        // Optional<Resource> optional = resourceRepo.findById(resource_id);
+        Optional<Resource> optional = resourceRepo.findByIdWithDocuments(resource_id);
         Resource res = null;
         if (optional.isPresent()){
             res = optional.get();

@@ -88,7 +88,10 @@
 
 package com.roboholic.roboholicweb.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -96,15 +99,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 
 import com.roboholic.roboholicweb.entity.Resource;
+
+import java.io.IOException;
 import java.util.List;
+
+import com.roboholic.roboholicweb.service.CloudinaryService;
 import com.roboholic.roboholicweb.service.ResourceServiceImpl;
 
 @Controller
 public class ResourceController {
     private ResourceServiceImpl resourceserviceImpl;
+    private static final Logger logger = LoggerFactory.getLogger(FAQController.class);
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Autowired
     public ResourceController(ResourceServiceImpl resourceserviceImpl) {
@@ -121,8 +135,19 @@ public class ResourceController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/resourcelisting")
     public String adminResourceListing(Model model) {
-        model.addAttribute("resources", resourceserviceImpl.getAllResource());
-        return "resourcelisting";
+        try{
+            model.addAttribute("resources", resourceserviceImpl.getAllResource());
+            return "resourcelisting";
+        } catch(DataAccessException e){
+            logger.error("Database error while fetching resources", e);
+            model.addAttribute("error", "Failed to load Resources due to database error");
+            return "resourcelisting";
+        } catch (Exception e) {
+            logger.error("Unexpected error while fetching listing", e);
+            model.addAttribute("error", "An unexpected error occurred");
+            return "resourcelisting";
+        }
+        
     }
 
     @GetMapping("/resourcelistingUserView")
@@ -131,12 +156,44 @@ public class ResourceController {
         return "resourcelistingUserView";
     }
 
+    // @PreAuthorize("hasRole('ADMIN')")
+    // @PostMapping("/addnewresources")
+    // public String addNewResources(Resource resource) {
+    //     resourceserviceImpl.addResource(resource);
+    //     resourceserviceImpl.addDateUploaded();
+    //     return "redirect:/resourcelisting";
+    // }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addnewresources")
-    public String addNewResources(Resource resource) {
-        resourceserviceImpl.addResource(resource);
-        resourceserviceImpl.addDateUploaded();
-        return "redirect:/resourcelisting";
+    public String addNewResources(@ModelAttribute Resource resource, BindingResult result,
+                                @RequestParam("resourceDocuments") MultipartFile[] files,
+                                RedirectAttributes redirectAttributes) throws IOException {
+        
+                                    
+        if (result.hasErrors()) {
+            return "addResources";
+        }
+
+        try{
+            // Upload documents to Cloudinary
+            if (files != null && files.length > 0 && !files[0].isEmpty()) {
+                List<String> documentUrls = cloudinaryService.uploadDocuments(files);
+                resource.setDocumentUrls(documentUrls);
+            }
+            
+            resource.setDateUploaded(resourceserviceImpl.addDateUploaded());
+            resourceserviceImpl.addResource(resource);
+            return "redirect:/resourcelisting";
+        } catch (DataAccessException e) {
+            logger.error("Database error while adding resource", e);
+            redirectAttributes.addFlashAttribute("error", "Failed to add resource due to database error");
+            return "redirect:/addnewresources";
+        } catch (Exception e) {
+            logger.error("Unexpected error while adding product", e);
+            redirectAttributes.addFlashAttribute("error", "Failed to add resource");
+            return "redirect:/addnewresources";
+        }
+        
     }
 
     @PreAuthorize("hasRole('ADMIN')")
