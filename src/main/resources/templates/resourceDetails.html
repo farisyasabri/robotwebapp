@@ -64,9 +64,7 @@
             <div class="col-md-6 mr-auto">
                 <h2 th:text="${resource.resourceName}"></h2>
                 <p class="mb-5" th:text="${resource.resourceDescription}"></p>
-                <a th:href="${resource.linkUrl}" target="_blank" class="text-primary" 
-                th:text="${resource.linkUrl} ?: 'No URL available'"></a>
-                
+                            
                 <div class="mt-3">
                     <h5>Documents:</h5>
                     <div th:if="${resource.documentUrls != null and !resource.documentUrls.empty}">
@@ -82,19 +80,15 @@
                     </div>
                 </div>
             </div>
-            <!-- videos -->
-            <!-- <div class="col-md-5">
-                <div class="slick-about">
-                    <div th:each="imageUrl : ${items.imageUrls}">
-                        <img th:src="${imageUrl}" class="img-fluid rounded d-block mx-auto" 
-                            th:alt="${items.itemName + ' image'}"/>
+            
+            <!-- video player -->
+            <div class="col-md-5">
+                    <div class="mt-3 mb-4" th:if="${resource.linkUrl != null and !resource.linkUrl.isEmpty()}">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" th:src="${embedUrl}" allowfullscreen></iframe>
+                        </div>
                     </div>
-                    <div th:if="${items.imageUrls == null || items.imageUrls.isEmpty()}">
-                        <img th:src="@{/images/default-product.png}" class="img-fluid rounded d-block mx-auto" 
-                            th:alt="${items.itemName + ' image'}"/>
-                    </div>
-                </div>
-            </div> -->
+            </div>
         </div>
 
         <div class="row mt-5">

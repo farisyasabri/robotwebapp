@@ -381,6 +381,20 @@ public class ResourceController {
     public String adminGetResourceDetails(@PathVariable(value = "id") Long id, Model model) {
         try {
             Resource resource = resourceserviceImpl.getResourcebyId(id);
+            
+            // Parse YouTube URL if present
+            if (resource.getLinkUrl() != null && !resource.getLinkUrl().isEmpty()) {
+                String videoId;
+                if (resource.getLinkUrl().contains("v=")) {
+                    videoId = resource.getLinkUrl().substring(resource.getLinkUrl().indexOf("v=") + 2);
+                } else if (resource.getLinkUrl().contains("youtu.be/")) {
+                    videoId = resource.getLinkUrl().substring(resource.getLinkUrl().indexOf("youtu.be/") + 9);
+                } else {
+                    videoId = "";
+                }
+                model.addAttribute("embedUrl", "https://www.youtube.com/embed/" + videoId);
+            }
+            
             model.addAttribute("resource", resource);
             return "resourceDetails";
         } catch (Exception e) {
@@ -397,6 +411,20 @@ public class ResourceController {
         
         try {
             Resource resource = resourceserviceImpl.getResourcebyId(id);
+            
+            // Parse YouTube URL if present
+            if (resource.getLinkUrl() != null && !resource.getLinkUrl().isEmpty()) {
+                String videoId;
+                if (resource.getLinkUrl().contains("v=")) {
+                    videoId = resource.getLinkUrl().substring(resource.getLinkUrl().indexOf("v=") + 2);
+                } else if (resource.getLinkUrl().contains("youtu.be/")) {
+                    videoId = resource.getLinkUrl().substring(resource.getLinkUrl().indexOf("youtu.be/") + 9);
+                } else {
+                    videoId = "";
+                }
+                model.addAttribute("embedUrl", "https://www.youtube.com/embed/" + videoId);
+            }
+
             model.addAttribute("resource", resource);
             return "resourceDetailsUserView";
         } catch (Exception e) {
