@@ -172,8 +172,6 @@
         <div class="row mt-5">
             <div th:each="resource : ${resources}" class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <!-- Optional: Add resource image if available -->
-                    <!-- <img class="card-img-top" th:src="@{/images/resources/ + ${resource.imagePath}}" alt="Resource image"> -->
                     
                     <div class="card-body">
                         <h5 class="card-title" th:text="${resource.resourceName}"></h5>
@@ -181,20 +179,8 @@
                            th:text="${resource.resourceDescription}"></p>
                     </div>
                     <div class="card-footer bg-white">
-                        <a th:href="${resource.linkUrl}" target="_blank" class="btn btn-sm btn-primary">
-                            <i class="fa fa-external-link"></i> View Resource
-                        </a>
-                        <!-- Optional: Display date if needed -->
-                        <!-- <small class="text-muted" th:text="${#dates.format(resource.dateUploaded, 'yyyy-MM-dd')}"></small> -->
-                        <!-- resource documents -->
-                        <div th:if="${resource.documentUrls != null and !resource.documentUrls.empty}" class="mt-2">
-                            <h6 class="small text-muted mb-1">Documents:</h6>
-                            <div th:each="docUrl, iterStat : ${resource.documentUrls}">
-                                <a th:href="${docUrl}" target="_blank" class="btn btn-sm btn-outline-secondary mb-1">
-                                    <i class="fa fa-file-pdf"></i> Document [[${iterStat.index + 1}]]
-                                </a>
-                            </div>
-                        </div>
+                        <a  th:href="@{/resourcelistingUserView/{id}/viewResource(id=${resource.resourceID})}"  
+                            class="btn btn-sm btn-primary">View Resource</a>
                     </div>
                 </div>
             </div>

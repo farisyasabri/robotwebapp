@@ -155,7 +155,10 @@
                         <tbody>
                             <tr th:each="resource : ${resources}">
                                 <td th:text="${resource.resourceID}"></td>
-                                <td th:text="${resource.resourceName}"></td>
+                                <td>
+                                    <a th:href="@{/resourcelisting/{id}/viewResource(id=${resource.resourceID})}" 
+                                    th:text="${resource.resourceName}" class="text-primary"></a>
+                                </td>
                                 <td class="text-truncate" style="max-width: 200px;" th:text="${resource.resourceDescription}"></td>
                                 <td>
                                     <a th:href="${resource.linkUrl}" target="_blank" class="text-primary">

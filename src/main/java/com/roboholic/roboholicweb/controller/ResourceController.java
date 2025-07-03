@@ -104,6 +104,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 
+import com.roboholic.roboholicweb.entity.Item;
 import com.roboholic.roboholicweb.entity.Resource;
 
 import java.io.IOException;
@@ -243,5 +244,51 @@ public class ResourceController {
         model.addAttribute("resources", filteredResources);
         // Return appropriate view based on user role
         return "resourcelisting";
+    }
+
+    // @PreAuthorize("hasRole('ADMIN')")
+    // @GetMapping("/resourcelisting/{id}/viewResource")
+    // public String adminGetResourceDetails(@PathVariable(value = "id") Long id, Model model) {
+    //     try{
+    //         Resource resource = resourceserviceImpl.getResourcebyId(id);
+    //         model.addAttribute("resource", resource);
+    //         return "resourceDetails";
+    //     } catch (Exception e) {
+    //         Resource resource = resourceserviceImpl.getResourcebyId(id);
+    //         logger.error("Error view resource details", e);
+    //         model.addAttribute("error", "Error view resource details "+ resource.getResourceName());
+    //         model.addAttribute("resources", resourceserviceImpl.getAllResource());
+    //         return "resourcelisting";
+    //     }
+        
+    // }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/resourcelisting/{id}/viewResource")
+    public String adminGetResourceDetails(@PathVariable(value = "id") Long id, Model model) {
+        try {
+            Resource resource = resourceserviceImpl.getResourcebyId(id);
+            model.addAttribute("resource", resource);
+            return "resourceDetails";
+        } catch (Exception e) {
+            logger.error("Error viewing resource details", e);
+            model.addAttribute("error", "Error viewing resource details");
+            return "redirect:/resourcelisting";
+        }
+    }
+
+    @GetMapping("/resourcelistingUserView/{id}/viewResource")
+    public String publicGetProductDetails(@PathVariable(value = "id") Long id, Model model) {
+        
+        try {
+            Resource resource = resourceserviceImpl.getResourcebyId(id);
+            model.addAttribute("resource", resource);
+            return "resourceDetailsUserView";
+        } catch (Exception e) {
+            logger.error("Error viewing resource details", e);
+            model.addAttribute("error", "Error viewing resource details");
+            return "resourcelistingUserView";
+        }
+        
     }
 }

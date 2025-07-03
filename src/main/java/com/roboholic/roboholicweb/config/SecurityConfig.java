@@ -65,7 +65,7 @@ public class SecurityConfig {
                 // Public FAQ view
                 .requestMatchers("/faqUserView", "/faqUserView/search").permitAll()
                 // Public Resource view
-                .requestMatchers("/resourcelistingUserView", "/resourcelistingUserView/searchresource").permitAll()
+                .requestMatchers("/resourcelistingUserView", "/resourcelistingUserView/searchresource", "resourcelistingUserView/{id}/viewResource").permitAll()
                 // Admin-only paths
                 .requestMatchers("/addnewproduct", "/listing", "/listing/{id}/viewItem").hasRole("ADMIN")
                 .requestMatchers("/listing/{id}/edit", "/listing/{id}/delete").hasRole("ADMIN")
@@ -75,7 +75,7 @@ public class SecurityConfig {
                 // Admin-only Resource paths
                 .requestMatchers("/resourcelisting", "/addnewresources", 
                                  "/resourcelisting/{id}/update", "/resourcelisting/{id}/delete",
-                                 "/resourcelisting/searchresource").hasRole("ADMIN")
+                                 "/resourcelisting/searchresource", "/resourcelisting/{id}/viewResource").hasRole("ADMIN")
                 // Admin-only Admin Dashboard
                 .requestMatchers("/admin/dashboard").hasRole("ADMIN")
                 .anyRequest().authenticated()
