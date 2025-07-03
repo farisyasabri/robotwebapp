@@ -409,19 +409,36 @@
     function markDocumentForRemoval(button, hiddenFieldId) {
         const container = button.closest('.document-preview-container');
         const docUrl = container.querySelector('input[name="existingDocumentUrls"]').value;
-        
-        // Add to removal list
         const hiddenField = document.getElementById(hiddenFieldId);
-        if (hiddenField.value) {
-            hiddenField.value += ',' + docUrl;
-        } else {
-            hiddenField.value = docUrl;
-        }
         
-        // Visual feedback - fade out
-        container.style.opacity = '0.5';
-        container.style.border = '2px solid red';
-        button.disabled = true;
+        // Check if this document is already marked for removal
+        const removalList = hiddenField.value ? hiddenField.value.split(',') : [];
+        const isMarked = removalList.includes(docUrl);
+        
+        if (isMarked) {
+            // Unmark - remove from removal list
+            const updatedList = removalList.filter(url => url !== docUrl);
+            hiddenField.value = updatedList.join(',');
+            
+            // Restore visual appearance
+            container.style.opacity = '1';
+            container.style.border = '1px solid #dee2e6';
+            button.innerHTML = '❌';
+            button.className = 'btn btn-sm btn-danger delete-btn';
+        } else {
+            // Mark for removal - add to removal list
+            if (hiddenField.value) {
+                hiddenField.value += ',' + docUrl;
+            } else {
+                hiddenField.value = docUrl;
+            }
+            
+            // Visual feedback - fade out and change button
+            container.style.opacity = '0.5';
+            container.style.border = '2px solid red';
+            button.innerHTML = '↩️'; // Change to undo icon
+            button.className = 'btn btn-sm btn-success delete-btn';
+        }
     }
     
     function formatFileSize(bytes) {

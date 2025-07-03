@@ -346,19 +346,36 @@
 function markImageForRemoval(button, hiddenFieldId) {
     const container = button.closest('.image-preview-container');
     const imageUrl = container.querySelector('input[name="existingImageUrls"]').value;
-    
-    // Add to removal list
     const hiddenField = document.getElementById(hiddenFieldId);
-    if (hiddenField.value) {
-        hiddenField.value += ',' + imageUrl;
-    } else {
-        hiddenField.value = imageUrl;
-    }
     
-    // Visual feedback - fade out
-    container.style.opacity = '0.5';
-    container.style.border = '2px solid red';
-    button.disabled = true;
+    // Check if this image is already marked for removal
+    const removalList = hiddenField.value ? hiddenField.value.split(',') : [];
+    const isMarked = removalList.includes(imageUrl);
+    
+    if (isMarked) {
+        // Unmark - remove from removal list
+        const updatedList = removalList.filter(url => url !== imageUrl);
+        hiddenField.value = updatedList.join(',');
+        
+        // Restore visual appearance
+        container.style.opacity = '1';
+        container.style.border = 'none';
+        button.innerHTML = '❌';
+        button.className = 'btn btn-sm btn-danger delete-btn';
+    } else {
+        // Mark for removal - add to removal list
+        if (hiddenField.value) {
+            hiddenField.value += ',' + imageUrl;
+        } else {
+            hiddenField.value = imageUrl;
+        }
+        
+        // Visual feedback - fade out and change button
+        container.style.opacity = '0.5';
+        container.style.border = '2px solid red';
+        button.innerHTML = '↩️'; // Change to undo icon
+        button.className = 'btn btn-sm btn-success delete-btn';
+    }
 }
 </script>
 
