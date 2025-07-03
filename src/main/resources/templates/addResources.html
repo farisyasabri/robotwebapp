@@ -133,7 +133,7 @@
                                 <label class="form-label">Resource Documents (PDF, DOC, etc.)</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="resourceDocuments" 
-                                        name="resourceDocuments" multiple accept=".pdf,.doc,.docx,.ppt,.pptx">
+                                        name="resourceDocuments" multiple accept=".pdf,.doc,.docx,.ppt,.pptx" onchange="validateFiles(this)">
                                     <label class="btn btn-outline-secondary" for="resourceDocuments">
                                         <i class="fa fa-file-upload mr-2"></i>Choose Files
                                     </label>
@@ -266,5 +266,65 @@
     });
 </script>
 
+
+<script>
+    // File validation and preview
+    function validateFiles(input) {
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        const validTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        ];
+        
+        const errorDiv = document.getElementById('fileError');
+        errorDiv.textContent = '';
+        
+        if (input.files.length > 0) {
+            let html = '<ul class="list-unstyled">';
+            let isValid = true;
+            
+            for (let i = 0; i < input.files.length; i++) {
+                const file = input.files[i];
+                
+                if (!validTypes.includes(file.type)) {
+                    errorDiv.textContent = 'Invalid file type: ' + file.name + 
+                        '. Only PDF, Word, and PowerPoint files are allowed.';
+                    isValid = false;
+                    break;
+                }
+                
+                if (file.size > maxSize) {
+                    errorDiv.textContent = 'File too large: ' + file.name + 
+                        ' (' + formatFileSize(file.size) + '). Max 10MB allowed.';
+                    isValid = false;
+                    break;
+                }
+                
+                html += `<li><i class="fa fa-file mr-2"></i>${file.name} (${formatFileSize(file.size)})</li>`;
+            }
+            
+            if (isValid) {
+                html += '</ul>';
+                document.getElementById('fileList').innerHTML = html;
+            } else {
+                input.value = '';
+                document.getElementById('fileList').innerHTML = 'No files selected';
+            }
+        } else {
+            document.getElementById('fileList').innerHTML = 'No files selected';
+        }
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat(bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+    }
+</script>
 </body>
 </html>

@@ -7887,3 +7887,13 @@ footer h5 {
     line-height: 1;
     cursor: pointer;
 }
+
+.document-preview-container {
+    transition: all 0.3s ease;
+    position: relative;
+    display: block;
+    margin: 10px;
+}
+.document-preview-container:hover {
+    background-color: #f8f9fa;
+}

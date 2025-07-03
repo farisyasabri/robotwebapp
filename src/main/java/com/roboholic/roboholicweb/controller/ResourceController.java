@@ -108,6 +108,9 @@ import com.roboholic.roboholicweb.entity.Item;
 import com.roboholic.roboholicweb.entity.Resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.roboholic.roboholicweb.service.CloudinaryService;
@@ -144,7 +147,7 @@ public class ResourceController {
             model.addAttribute("error", "Failed to load Resources due to database error");
             return "resourcelisting";
         } catch (Exception e) {
-            logger.error("Unexpected error while fetching listing", e);
+            logger.error("Unexpected error while fetching resources", e);
             model.addAttribute("error", "An unexpected error occurred");
             return "resourcelisting";
         }
@@ -153,8 +156,15 @@ public class ResourceController {
 
     @GetMapping("/resourcelistingUserView")
     public String publicResourceListing(Model model) {
-        model.addAttribute("resources", resourceserviceImpl.getAllResource());
-        return "resourcelistingUserView";
+        try{
+            model.addAttribute("resources", resourceserviceImpl.getAllResource());
+            return "resourcelistingUserView";
+        } catch (Exception e) {
+            logger.error("Error loading public resource listing", e);
+            model.addAttribute("error", "Failed to load resources");
+            return "resourcelistingUserView";
+        }
+        
     }
 
     // @PreAuthorize("hasRole('ADMIN')")
@@ -184,6 +194,7 @@ public class ResourceController {
             
             resource.setDateUploaded(resourceserviceImpl.addDateUploaded());
             resourceserviceImpl.addResource(resource);
+            redirectAttributes.addFlashAttribute("success", "Resource added successfully!");
             return "redirect:/resourcelisting";
         } catch (DataAccessException e) {
             logger.error("Database error while adding resource", e);
@@ -199,51 +210,153 @@ public class ResourceController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/resourcelisting/{id}/delete")
-    public String deleteResource(@PathVariable (value = "id") Long id) {
-        resourceserviceImpl.deleteResource(id);
+    public String deleteResource(@PathVariable (value = "id") Long id,
+                                 RedirectAttributes redirectAttributes) {
+        
+        try{                         
+            resourceserviceImpl.deleteResource(id);
+            redirectAttributes.addFlashAttribute("success", "Resource deleted successfully!");  
+        } catch (DataAccessException e) {
+            logger.error("Database error while deleting resource with id: " + id, e);
+            redirectAttributes.addFlashAttribute("error", "Failed to delete selected resource due to database error");
+        } catch (Exception e) {
+            logger.error("Unexpected error while deleting resource with id: " + id, e);
+            redirectAttributes.addFlashAttribute("error", "Failed to delete selected resource");
+        }
+
         return "redirect:/resourcelisting";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/resourcelisting/{id}/update")
     public String updateResourceForm(@PathVariable (value = "id") Long id, Model model) {
-        Resource resource = resourceserviceImpl.getResourcebyId(id);
-        model.addAttribute("resources", resource);
-        return "updateResources";
+        
+        try{
+            Resource resource = resourceserviceImpl.getResourcebyId(id);
+            model.addAttribute("resources", resource);
+            return "updateResources";   
+        } catch (RuntimeException e) {
+            logger.error("Resource not found with id: " + id, e);
+            model.addAttribute("error", "Resource not found");
+            return "redirect:/resourcelisting";
+        } catch (Exception e) {
+            logger.error("Error loading Resource for editing with id: " + id, e);
+            model.addAttribute("error", "Error loading Resource");
+            return "redirect:/resourcelisting";
+        }
+        
     }
+
+    // @PreAuthorize("hasRole('ADMIN')")
+    // @PostMapping("/resourcelisting/{id}/update/save")
+    // public String updateResource(@ModelAttribute Resource resource, @PathVariable("id") Long id) {
+    //     resourceserviceImpl.updateResource(resource,id);
+    //     return "redirect:/resourcelisting";
+    // }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/resourcelisting/{id}/update/save")
-    public String updateResource(@ModelAttribute Resource resource, @PathVariable("id") Long id) {
-        resourceserviceImpl.updateResource(resource,id);
-        return "redirect:/resourcelisting";
+    public String updateResource(
+            @ModelAttribute Resource resource, 
+            @PathVariable("id") Long id,
+            @RequestParam(value = "resourceDocuments", required = false) MultipartFile[] files,
+            @RequestParam(value = "existingDocumentUrls", required = false) List<String> existingDocumentUrls,
+            @RequestParam(value = "removeDocumentUrls", required = false) String removeDocumentUrls,
+            RedirectAttributes redirectAttributes) throws IOException {
+        
+        try {
+            // Get the existing resource from database
+            Resource existingResource = resourceserviceImpl.getResourcebyId(id);
+            
+            // Update basic fields
+            existingResource.setResourceName(resource.getResourceName());
+            existingResource.setResourceDescription(resource.getResourceDescription());
+            existingResource.setLinkUrl(resource.getLinkUrl());
+            
+            // Handle document updates
+            List<String> finalDocumentUrls = new ArrayList<>();
+            
+            // Keep existing documents that weren't marked for removal
+            if (existingDocumentUrls != null) {
+                List<String> docsToRemove = removeDocumentUrls != null 
+                    ? Arrays.asList(removeDocumentUrls.split(",")) 
+                    : Collections.emptyList();
+                
+                for (String url : existingDocumentUrls) {
+                    if (!docsToRemove.contains(url)) {
+                        finalDocumentUrls.add(url);
+                    }
+                }
+            }
+            
+            // Add new documents
+            if (files != null && files.length > 0 && !files[0].isEmpty()) {
+                List<String> newDocumentUrls = cloudinaryService.uploadDocuments(files);
+                finalDocumentUrls.addAll(newDocumentUrls);
+            }
+            
+            // Set the final document URLs
+            existingResource.setDocumentUrls(finalDocumentUrls.isEmpty() ? null : finalDocumentUrls);
+            
+            // Update the resource
+            resourceserviceImpl.updateResource(existingResource, id);
+            redirectAttributes.addFlashAttribute("success", "Resource updated successfully!");
+            return "redirect:/resourcelisting";
+            
+        } catch (DataAccessException e) {
+            logger.error("Database error while updating resource with id: " + id, e);
+            redirectAttributes.addFlashAttribute("error", "Failed to update selected resource due to database error");
+            return "redirect:/resourcelisting/" + id + "/update";
+        } catch (Exception e) {
+            logger.error("Unexpected error while updating resource with id: " + id, e);
+            redirectAttributes.addFlashAttribute("error", "Failed to update selected resource");
+            return "redirect:/resourcelisting/" + id + "/update";
+        }
     }
 
     @GetMapping("/resourcelistingUserView/searchresource")
     public String publicGetResourceByName(@RequestParam(required = false) String filter, Model model) {
-        List<Resource> filteredResources;
-        if (filter != null && !filter.isEmpty()) {
-            filteredResources = resourceserviceImpl.searchResourceByName(filter);
-        } else {
-            filteredResources = resourceserviceImpl.getAllResource();
+        
+        try{
+            List<Resource> filteredResources;
+            if (filter != null && !filter.isEmpty()) {
+                filteredResources = resourceserviceImpl.searchResourceByName(filter);
+            } else {
+                filteredResources = resourceserviceImpl.getAllResource();
+            }
+            model.addAttribute("resources", filteredResources);
+            // Return appropriate view based on user role
+            return "resourcelistingUserView";
+        }  catch (Exception e) {
+            logger.error("Error searching resource", e);
+            model.addAttribute("error", "Error searching resource");
+            model.addAttribute("resources", resourceserviceImpl.getAllResource());
+            return "resourcelistingUserView";
         }
-        model.addAttribute("resources", filteredResources);
-        // Return appropriate view based on user role
-        return "resourcelistingUserView";
+        
     }
    
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/resourcelisting/searchresource")
     public String adminGetResourceByName(@RequestParam(required = false) String filter, Model model) {
-        List<Resource> filteredResources;
-        if (filter != null && !filter.isEmpty()) {
-            filteredResources = resourceserviceImpl.searchResourceByName(filter);
-        } else {
-            filteredResources = resourceserviceImpl.getAllResource();
+        
+        try{
+            List<Resource> filteredResources;
+            if (filter != null && !filter.isEmpty()) {
+                filteredResources = resourceserviceImpl.searchResourceByName(filter);
+            } else {
+                filteredResources = resourceserviceImpl.getAllResource();
+            }
+            model.addAttribute("resources", filteredResources);
+            // Return appropriate view based on user role
+            return "resourcelisting";
+        }   catch (Exception e) {
+            logger.error("Error searching resource", e);
+            model.addAttribute("error", "Error searching resource");
+            model.addAttribute("resources", resourceserviceImpl.getAllResource());
+            return "resourcelisting";
         }
-        model.addAttribute("resources", filteredResources);
-        // Return appropriate view based on user role
-        return "resourcelisting";
+        
     }
 
     // @PreAuthorize("hasRole('ADMIN')")
@@ -271,8 +384,10 @@ public class ResourceController {
             model.addAttribute("resource", resource);
             return "resourceDetails";
         } catch (Exception e) {
+            Resource resource = resourceserviceImpl.getResourcebyId(id);
             logger.error("Error viewing resource details", e);
-            model.addAttribute("error", "Error viewing resource details");
+            model.addAttribute("error", "Error viewing resource details " + resource.getResourceName());
+            model.addAttribute("resource", resourceserviceImpl.getAllResource());
             return "redirect:/resourcelisting";
         }
     }
@@ -285,8 +400,10 @@ public class ResourceController {
             model.addAttribute("resource", resource);
             return "resourceDetailsUserView";
         } catch (Exception e) {
+            Resource resource = resourceserviceImpl.getResourcebyId(id);
             logger.error("Error viewing resource details", e);
-            model.addAttribute("error", "Error viewing resource details");
+            model.addAttribute("error", "Error viewing resource details " + resource.getResourceName());
+            model.addAttribute("resource", resourceserviceImpl.getAllResource());
             return "resourcelistingUserView";
         }
         
