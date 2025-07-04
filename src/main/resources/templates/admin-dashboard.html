@@ -24,10 +24,29 @@
     
     <!-- Custom CSS -->
     <style>
+        body {
+            padding-top: 56px; /* Height of your navbar */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
         .sidebar {
-            min-height: calc(100vh - 56px);
-            background: linear-gradient(180deg, #2c3e50, #1a2530);
-            color: white;
+        min-height: calc(100vh - 56px); /* Subtract navbar height */
+        background: linear-gradient(180deg, #2c3e50, #1a2530);
+        color: white;
+        position: fixed; /* Make sidebar fixed */
+        top: 56px; /* Position below navbar */
+        left: 0;
+        overflow-y: auto; /* Enable scrolling if content is long */
+        z-index: 1000;
+    }
+        /* Add margin to main content to account for fixed sidebar */
+        main {
+            margin-left: 16.666667%; /* Same as col-md-2 width */
+            margin-top: 56px; /* Same as navbar height */
+            width: calc(100% - 16.666667%); /* Adjust width */
+            padding: 20px;
+            flex: 1;
         }
         .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
@@ -73,12 +92,26 @@
             padding-left: 15px;
             margin-bottom: 20px;
         }
+
+        /* For mobile view */
+        @media (max-width: 767.98px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+            }
+            
+            main {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
 <!--navigation-->
-<section class="smart-scroll">
+<!-- <section class="smart-scroll">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <a class="navbar-brand heading-black" th:href="@{/admin/dashboard}">
@@ -118,6 +151,49 @@
             </div>
         </nav>
     </div>
+</section> -->
+<!-- Replace your current navigation section with this -->
+<!--navigation-->
+<section class="smart-scroll">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark px-0 fixed-top">  <!-- Removed container-fluid and added px-0 -->
+        <div class="container-fluid">  <!-- Moved container-fluid inside the navbar -->
+            <a class="navbar-brand heading-black" th:href="@{/admin/dashboard}">
+                Robotic Admin
+            </a>
+            <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span data-feather="grid"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" 
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=random" class="rounded-circle mr-2" 
+                                 width="30" height="30" alt="User">
+                            <span>Admin</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="fa fa-user mr-2"></i> Profile
+                            </a>
+                            <!-- <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="fa fa-cog mr-2"></i> Settings
+                            </a> -->
+                            <div class="dropdown-divider"></div>
+                            <form th:action="@{/logout}" method="post" class="px-3 py-1">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <button type="submit" class="dropdown-item p-0 border-0 bg-transparent d-flex align-items-center w-100">
+                                    <i class="fa fa-sign-out mr-2"></i> Logout
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </section>
 
 <div class="container-fluid">
@@ -146,9 +222,9 @@
                             <i class="fa fa-question-circle"></i> FAQs
                         </a>
                     </li>
-                    <li class="nav-item mt-4">
+                    <!-- <li class="nav-item mt-4">
                         <h6 class="px-3 text-uppercase text-muted">Settings</h6>
-                    </li>
+                    </li> -->
                     <!-- <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fa fa-users"></i> Users
@@ -164,8 +240,8 @@
         </nav>
 
         <!-- Main Content -->
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 py-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <main role="main" class="col-md-10 ml-sm-auto px-4 py-4">
+            <!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Dashboard Overview</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
@@ -176,7 +252,7 @@
                         <span data-feather="calendar"></span> This week
                     </button>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Stats Cards -->
             <!-- <div class="row mb-4">
@@ -347,9 +423,9 @@
                 </div> -->
 
                 <!-- QUICK ACTION -->
-                <div class="col-lg-6 mb-4">
-                    <div class="card shadow mb-4 card-hover">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <!-- <div class="container min-vh-100 d-flex align-items-center">
+                    <div class="row justify-content-center w-100">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-center">
                             <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
                         </div>
                         <div class="card-body">
@@ -381,6 +457,44 @@
                             </div>
                         </div>
                     </div>
+                </div> -->
+                <!-- Quick Actions -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow mb-4 card-hover">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <a th:href="@{/addnewproduct}" class="btn btn-primary btn-block py-3 d-flex flex-column align-items-center">
+                                            <i class="fa fa-plus fa-2x mb-2"></i>
+                                            Add Product
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <a th:href="@{/addnewresources}" class="btn btn-success btn-block py-3 d-flex flex-column align-items-center">
+                                            <i class="fa fa-file-text fa-2x mb-2"></i>
+                                            Add Resource
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <a th:href="@{/faq/add}" class="btn btn-info btn-block py-3 d-flex flex-column align-items-center">
+                                            <i class="fa fa-question-circle fa-2x mb-2"></i>
+                                            Add FAQ
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <a href="#" class="btn btn-warning btn-block py-3 d-flex flex-column align-items-center">
+                                            <i class="fa fa-users fa-2x mb-2"></i>
+                                            Manage Users
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -388,7 +502,7 @@
 </div>
 
 <!--footer-->
-<footer class="py-4 bg-light mt-auto">
+<!-- <footer class="py-4 bg-light mt-auto">
     <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between small">
             <div class="text-muted">Copyright &copy; Robotic</div>
@@ -399,8 +513,9 @@
             </div>
         </div>
     </div>
-</footer>
+</footer> -->
 
+</footer>
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
