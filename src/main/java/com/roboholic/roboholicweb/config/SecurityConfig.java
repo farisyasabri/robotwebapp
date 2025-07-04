@@ -58,7 +58,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 // Public resources
-                .requestMatchers("/", "/login", "/css/**", "/js/**", "/stylesheet/**", "/images/**").permitAll()
+                .requestMatchers("/home", "/login", "/css/**", "/js/**", "/stylesheet/**", "/images/**").permitAll()
                 // Public product views
                 .requestMatchers("/listingUserView", "/listingUserView/searchname", "/listingUserView/searchprice").permitAll()
                 .requestMatchers("/listingUserView/{id}/viewItem").permitAll()
