@@ -10,14 +10,8 @@
     <!--Inter UI font-->
     <link th:href="@{https://rsms.me/inter/inter-ui.css}" rel="stylesheet">
 
-    <!--vendors styles-->
-    <!-- <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css}">
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css}"> -->
-
     <!-- Bootstrap CSS / Color Scheme -->
     <link th:href="@{/stylesheet/default.css}" rel="stylesheet" id="theme-color">
-    <!-- uncomment then link for pretty table -->
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css}">
 </head>
 <body>
@@ -57,92 +51,6 @@
         </nav>
     </div>
 </section>
-
-<!-- Main content [Table form]-->
-<!-- <section class="py-7 bg-hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 mx-auto text-center">
-                <h2 class="heading-black">Product Listing</h2>
-                <p class="text-muted lead">Browse and purchase our products</p>
-            </div>
-        </div> -->
-
-        <!-- Filter section -->
-        <!-- <div class="row mt-5 mb-4">
-            <div class="col-md-8 mx-auto">
-                <form method="get" th:action="@{/listingUserView/searchname}" class="input-group">
-                    <input type="text" class="form-control form-control-lg" name="filter" placeholder="Search products..."
-                           th:value="${param.filter}" aria-label="Item Name">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa fa-search"></i> Search
-                    </button>
-                </form>
-            </div>
-            <div class="col-md-8 mx-auto mt-3">
-                <form method="get" th:action="@{/listingUserView/searchprice}" class="d-flex justify-content-center">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-primary" th:classappend="${param.priceRange == 'under50'} ? 'active' : ''">
-                            <input type="radio" name="priceRange" value="under50" onchange="this.form.submit()"> Under RM50
-                        </label>
-                        <label class="btn btn-outline-primary" th:classappend="${param.priceRange == '50to100'} ? 'active' : ''">
-                            <input type="radio" name="priceRange" value="50to100" onchange="this.form.submit()"> RM50-100
-                        </label>
-                        <label class="btn btn-outline-primary" th:classappend="${param.priceRange == 'above100'} ? 'active' : ''">
-                            <input type="radio" name="priceRange" value="above100" onchange="this.form.submit()"> RM100-150
-                        </label>
-                    </div>
-                </form>
-            </div>
-        </div> -->
-
-        <!-- Flash messages -->
-        <!-- <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show" role="alert">
-            <span th:text="${message}"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div> -->
-
-        <!-- Product listing -->
-        <!-- <div class="card shadow-lg">
-            <div class="card-header bg-white">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Products</h5>
-                    <span class="badge bg-primary" th:text="${items.size()} + ' items'"></span>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="text-uppercase text-muted">
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="item : ${items}" th:class="${item.itemStock == 0} ? 'table-danger' : ''">
-                                <td>
-                                    <a th:href="@{/listing/{id}/viewItem(id=${item.itemID})}" 
-                                       th:text="${item.itemName}" class="text-primary"></a>
-                                </td>
-                                <td class="text-truncate" style="max-width: 200px;" th:text="${item.itemDescription}"></td>
-                                <td th:text="'RM' + ${#numbers.formatDecimal(item.itemPrice, 1, 2)}"></td>
-                                <td th:text="${item.itemStock}"></td>
-                            </tr>
-                            <tr th:if="${items.empty}">
-                                <td colspan="6" class="text-center text-muted py-4">No products found</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div> -->
-        <!-- </div>
-    </div>
-</section> -->
 
 <!-- Main Content [Card Form] -->
 <section class="py-7 bg-hero">
@@ -209,8 +117,6 @@
         <div class="row mt-5">
             <div th:each="item : ${items}" class="col-md-4 mb-4">
                 <div class="card h-100">
-                    <!-- You can add an image here if you have product images -->
-                    <!-- <img class="card-img-top" th:src="@{/images/products/ + ${item.imagePath}}" alt="Product image"> -->
                     <div class="card-body">
                         <h5 class="card-title">
                             <a th:href="@{/listingUserView/{id}/viewItem(id=${item.itemID})}" 
@@ -251,65 +157,6 @@
         </div>
     </div>
 </section>
-
-<!-- News section (keep this separate) -->
-<!-- <section class="py-7 bg-dark section-angle top-left bottom-left" id="blog">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mx-auto text-center">
-                <h2 class="heading-black">Latest News</h2>
-                <p class="text-muted lead">What's new at Robotic</p>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-md-4">
-                <div class="card">
-                    <a th:href="@{#}">
-                        <img class="card-img-top img-raised" th:src="@{/images/blog-1.jpg}" alt="Blog 1">
-                    </a>
-                    <div class="card-body">
-                        <a th:href="@{#}" class="card-title mb-2"><h5>We launch new iOS & Android mobile apps</h5></a>
-                        <p class="text-muted small-xl mb-2">Sep 27, 2018</p>
-                        <p class="card-text">Nam liber tempor cum soluta nobis eleifend option congue nihil imper,
-                            consectetur adipiscing elit. <a th:href="@{#}">Learn more</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <a th:href="@{#}">
-                        <img class="card-img-top img-raised" th:src="@{/images/blog-2.jpg}" alt="Blog 2">
-                    </a>
-                    <div class="card-body">
-                        <a th:href="@{#}" class="card-title mb-2"><h5>New update is available for the editor</h5></a>
-                        <p class="text-muted small-xl mb-2">August 16, 2018</p>
-                        <p class="card-text">Nam liber tempor cum soluta nobis eleifend option congue nihil imper,
-                            consectetur adipiscing elit. <a th:href="@{#}">Learn more</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <a th:href="@{#}">
-                        <img class="card-img-top img-raised" th:src="@{/images/blog-3.jpg}" alt="Blog 3">
-                    </a>
-                    <div class="card-body">
-                        <a th:href="@{#}" class="card-title mb-2"><h5>The story of building #1 page builder</h5></a>
-                        <p class="text-muted small-xl mb-2">December 2nd, 2017</p>
-                        <p class="card-text">Nam liber tempor cum soluta nobis eleifend option congue nihil imper,
-                            consectetur adipiscing elit. <a th:href="@{#}">Learn more</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-6">
-            <div class="col-md-6 mx-auto text-center">
-                <a th:href="@{#}" class="btn btn-primary">View all posts</a>
-            </div>
-        </div>
-    </div>
-</section> -->
-
 
 <!--footer-->
 <footer class="py-6 bg-dark">

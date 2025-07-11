@@ -58,28 +58,6 @@
 <!-- Main content -->
 <section class="py-7">
     <div class="container">
-        <!-- <nav class="nav nav-borders">
-            <a class="nav-link active ms-0" th:href="@{/addnewproduct}">Add Product</a>
-            <a class="nav-link active ms-0" th:href="@{/listing}">Product Listing</a>
-            <a class="nav-link active ms-0" th:href="@{/resourcelisting}">View Resources</a>
-            <a class="nav-link active ms-0" th:href="@{/addnewresources}">Add Resources</a>
-            <a class="nav-link active ms-0" th:href="@{/faq}">FAQs</a>
-        </nav>
-        <hr class="mt-0 mb-4"> -->
-
-        <!-- Flash messages -->
-        <!-- <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show" role="alert">
-            <span th:text="${message}"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <span th:text="${error}"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div> -->
         <div th:if="${error != null}" class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${error}"></span>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -121,7 +99,7 @@
                             
                             <!-- Resource Link -->
                             <div class="mb-4">
-                                <label class="form-label">Resource URL</label>
+                                <label class="form-label">Resource Video URL</label>
                                 <input th:field="*{linkUrl}" class="form-control" type="url" 
                                        placeholder="Enter resource URL (e.g., https://example.com)" required>
                                 <small class="text-danger" th:if="${#fields.hasErrors('linkUrl')}" 

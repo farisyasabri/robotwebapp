@@ -23,39 +23,6 @@
 <body>
 
 <!--navigation-->
-<!-- <section class="smart-scroll">
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-md navbar-dark">
-            <a class="navbar-brand heading-black" th:href="@{/}">
-                Robotic
-            </a>
-            <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse"
-                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span data-feather="grid"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll" th:href="@{/listing}">Product Listing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll" th:href="@{/resourcelisting}">Resources</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll" th:href="@{/faq}">FAQ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link page-scroll d-flex flex-row align-items-center text-primary" th:href="@{/addnewproduct}">
-                            <em data-feather="plus" width="18" height="18" class="mr-2"></em>
-                            Admin Panel
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</section> -->
 <section class="smart-scroll">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md navbar-dark">
@@ -126,15 +93,6 @@
 
                             <div class="mb-4">
                                 <!-- Product Images -->
-                                <!-- <label class="form-label">Product Image</label>
-                                <div class="card mb-4">
-                                    <div class="card-body text-center">
-                                        <img class="img-fluid rounded mb-2" src="https://cdn-icons-png.flaticon.com/512/2661/2661440.png" alt="Product image" width="150">
-                                        <div class="small text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                                        <button class="btn btn-primary" type="button">Upload new image</button>
-                                    </div>
-                                </div> -->
-                                <!-- Inside the form, modify the image section -->
                                 <div class="form-group text-center">
                                     <label for="productImages" class="btn btn-primary">
                                         <i class="fa fa-upload mr-2"></i>Upload Images (Multiple)
@@ -175,13 +133,17 @@
                                     <label class="form-label">Price (RM)</label>
                                     <div class="input-group">
                                         <span class="input-group-text">RM</span>
-                                        <input th:field="*{itemPrice}" class="form-control" type="text" required>
+                                        <input th:field="*{itemPrice}" class="form-control" type="number" min="0" required>
                                     </div>
                                 </div>
+                                <small class="text-danger" th:if="${#fields.hasErrors('itemPrice')}" 
+                                           th:errors="*{itemPrice}"></small>
                                 <div class="col-md-6">
                                     <label class="form-label">Quantity</label>
-                                    <input th:field="*{itemStock}" class="form-control" type="text" required>
+                                    <input th:field="*{itemStock}" class="form-control" type="number" min="0" required>
                                 </div>
+                                <small class="text-danger" th:if="${#fields.hasErrors('itemStock')}" 
+                                           th:errors="*{itemStock}"></small>
                             </div>
                             
                             <div class="d-flex justify-content-between">
@@ -198,60 +160,6 @@
     </div>
 </section>
 
-<!--footer-->
-<!-- <footer class="py-6">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-5 mr-auto">
-                <h5>About Robotic</h5>
-                <p class="text-muted">The project aims to revolutionize STEM (Science, Technology, Engineering, and
- Mathematics) education by developing innovative robots and a comprehensive website
- dedicated to providing accessible and engaging STEM resources.</p>
-                <ul class="list-inline social social-sm">
-                    <li class="list-inline-item">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#"><i class="fa fa-dribbble"></i></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-2">
-                <h5>Legal</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Terms</a></li>
-                    <li><a href="#">Refund policy</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-2">
-                <h5>Partner</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#">Refer a friend</a></li>
-                    <li><a href="#">Affiliates</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-2">
-                <h5>Help</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Log in</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12 text-muted text-center small-xl">
-                &copy; 2023 Knight - All Rights Reserved
-            </div>
-        </div>
-    </div>
-</footer> -->
 <footer class="py-6 bg-hero">
     <div class="container">
         <div class="row">

@@ -149,13 +149,6 @@ public class FAQController {
         return "addfaq";
     }
 
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @PostMapping("/faq/add")
-    // public String addFAQ(@ModelAttribute FAQ faq) {
-    //     faqServiceImpl.addFAQ(faq);
-    //     return "redirect:/faq";
-    // }
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/faq/add")
     public String addFAQ(@Valid @ModelAttribute FAQ faq, 
@@ -180,12 +173,6 @@ public class FAQController {
         }
     }
 
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @GetMapping("/faq/{id}/delete")
-    // public String deleteFAQ(@PathVariable(value = "id") Long id) {
-    //     faqServiceImpl.deleteFAQ(id);
-    //     return "redirect:/faq";
-    // }
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/faq/{id}/delete")
     public String deleteFAQ(@PathVariable(value = "id") Long id, 
@@ -202,14 +189,6 @@ public class FAQController {
         }
         return "redirect:/faq";
     }
-
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @GetMapping("/faq/{id}/edit")
-    // public String editFAQForm(@PathVariable(value = "id") Long id, Model model) {
-    //     FAQ faq = faqServiceImpl.getFAQbyId(id);
-    //     model.addAttribute("faq", faq);
-    //     return "editfaq";
-    // }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/faq/{id}/edit")
@@ -228,13 +207,6 @@ public class FAQController {
             return "redirect:/faq";
         }
     }
-
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @PostMapping("/faq/{id}/edit/save")
-    // public String editFAQ(@ModelAttribute FAQ faq, @PathVariable("id") Long id) {
-    //     faqServiceImpl.updateFAQ(faq, id);
-    //     return "redirect:/faq";
-    // }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/faq/{id}/edit/save")
@@ -260,23 +232,6 @@ public class FAQController {
             return "redirect:/faq/" + id + "/edit";
         }
     }
-
-    // @GetMapping("/faqUserView/search")
-    // public String publicSearchFAQs(@RequestParam(required = false) String category, 
-    //                         @RequestParam(required = false) String search, 
-    //                         Model model) {
-    //     List<FAQ> results;
-    //     if (category != null && !category.isEmpty()) {
-    //         results = faqServiceImpl.searchFAQsByCategory(category);
-    //     } else if (search != null && !search.isEmpty()) {
-    //         results = faqServiceImpl.searchFAQsByQuestion(search);
-    //     } else {
-    //         results = faqServiceImpl.getAllFAQs();
-    //     }
-    //     model.addAttribute("faqs", results);
-    //     return "faqUserView";
-    // }
-
     @GetMapping("/faqUserView/search")
     public String publicSearchFAQs(@RequestParam(required = false) String category, 
                                  @RequestParam(required = false) String search, 
@@ -302,23 +257,6 @@ public class FAQController {
             return faqServiceImpl.getAllFAQs();
         }
     }
-
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @GetMapping("/faq/search")
-    // public String adminSearchFAQs(@RequestParam(required = false) String category, 
-    //                         @RequestParam(required = false) String search, 
-    //                         Model model) {
-    //     List<FAQ> results;
-    //     if (category != null && !category.isEmpty()) {
-    //         results = faqServiceImpl.searchFAQsByCategory(category);
-    //     } else if (search != null && !search.isEmpty()) {
-    //         results = faqServiceImpl.searchFAQsByQuestion(search);
-    //     } else {
-    //         results = faqServiceImpl.getAllFAQs();
-    //     }
-    //     model.addAttribute("faqs", results);
-    //     return "faq";
-    // }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/faq/search")

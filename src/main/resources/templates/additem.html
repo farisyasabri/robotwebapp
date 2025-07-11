@@ -59,28 +59,6 @@
 <!-- Main content -->
 <section class="py-7">
     <div class="container">
-        <!-- <nav class="nav nav-borders">
-            <a class="nav-link active ms-0" th:href="@{/addnewproduct}">Add Product</a>
-            <a class="nav-link active ms-0" th:href="@{/listing}">Product Listing</a>
-            <a class="nav-link active ms-0" th:href="@{/resourcelisting}">View Resources</a>
-            <a class="nav-link active ms-0" th:href="@{/addnewresources}">Add Resources</a>
-            <a class="nav-link active ms-0" th:href="@{/faq}">FAQs</a>
-        </nav> -->
-        <!-- <hr class="mt-0 mb-4"> -->
-
-        <!-- Flash messages -->
-        <!-- <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show" role="alert">
-            <span th:text="${message}"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <span th:text="${error}"></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div> -->
         <div th:if="${error != null}" class="alert alert-success alert-dismissible fade show" role="alert">
             <span th:text="${error}"></span>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -94,10 +72,6 @@
             </button>
         </div>
 <div class="row">
-            <!-- <div class="col-xl-4"> -->
-                <!-- Product picture card -->
-                
-            <!-- </div> -->
             <div class="container">
                 <!-- Product details card -->
                 <div class="card shadow">
@@ -146,7 +120,7 @@
                                             <span class="input-group-text">RM</span>
                                         </div>
                                         <input th:field="*{itemPrice}" class="form-control" type="number" step="0.01" 
-                                               placeholder="0.00" required>
+                                               placeholder="0.00" min="0" required>
                                     </div>
                                     <small class="text-danger" th:if="${#fields.hasErrors('itemPrice')}" 
                                            th:errors="*{itemPrice}"></small>
@@ -156,7 +130,7 @@
                                 <div class="col-md-6">
                                     <label class="form-label">Quantity</label>
                                     <input th:field="*{itemStock}" class="form-control" type="number" 
-                                           placeholder="Enter available quantity" required>
+                                           placeholder="Enter available quantity" min="0" required>
                                     <small class="text-danger" th:if="${#fields.hasErrors('itemStock')}" 
                                            th:errors="*{itemStock}"></small>
                                 </div>
